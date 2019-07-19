@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/12 16:07:26 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/07/19 18:29:29 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,17 +29,23 @@ typedef struct	s_pixel
 	struct		s_pixel *next;
 }				t_pixel;
 
-struct pixel_data
+struct			s_size
+{
+	int			height;
+	int			width;
+};
+
+struct			s_pixel_data
 {
 	int	x;
 	int	y;
 	int z;
 };
 
-
 struct			s_mlx
 {
 	void		*ptr;
+	void		*ptr_image;
 	void		*window;	
 };
 #endif

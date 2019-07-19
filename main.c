@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+   /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
@@ -27,11 +27,14 @@ int		main(int argc, char **argv)
 {
 	t_pixel				*pixel;
 	t_pixel				*ptr_pxl;
-	struct pixel_data	xyz;
+	struct s_size		size;
+	struct s_pixel_data	xyz;
 	struct s_mlx		mlx;
 	int					fd;
 	char				*line;
 
+	size.height = 0;
+	size.width = 0;
 	xyz.x = 0;
 	xyz.y = 0;
 	xyz.z = 0;
@@ -61,9 +64,12 @@ int		main(int argc, char **argv)
 	}
 	free(pixel);
 	pixel = NULL;
+	
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1280, 720, "XYEBOE_OKHO");
-	
+	//mlx.ptr_image = mlx_new_image(mlx.ptr, 720, 540);
+	//mlx_put_image_to_window(mlx.ptr, mlx.window, mlx.ptr_image, 0, 0);
+	mlx_pixel_put(mlx.ptr, mlx.window, 355, 270, 255);
 	mlx_key_hook(mlx.window, key_exit, mlx.ptr);
 	mlx_loop(mlx.ptr);
 	return (0);
