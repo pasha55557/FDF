@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <stdio.h>
+#include "../includes/fdf.h"
 
 int		key_exit(int key, void *init)
 {
-//	(void)init;
+	(void)init;
 	if (key == 53)
 	{
 		exit(1);
@@ -28,10 +27,9 @@ int		main(int argc, char **argv)
 	t_pixel				*pixel;
 	t_pixel				*ptr_pxl;
 	struct s_size		size;
-	struct s_pixel_data	xyz;
-	struct s_mlx		mlx;
+	t_pixel_data		xyz;
+	t_mlx				mlx;
 	int					fd;
-	char				*line;
 
 	size.height = 0;
 	size.width = 0;
@@ -43,33 +41,18 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	pixel = (t_pixel*)malloc(sizeof(t_pixel));
 	ptr_pxl = pixel;
-	while (get_next_line(fd, &line) == 1)
-	{
-		printf("%s\n", line);
-		while (*line != '\0')
-		{
-			pixel->z = ft_atoi(line);
-			while (*line >= '0' && *line <= '9')
-				line++;
-			while (*line == ' ')
-				line++;
-			pixel->x = xyz.x;
-			pixel->y = xyz.y;
-			xyz.x++;
-			pixel = pixel->next;
-			pixel = (t_pixel*)malloc(sizeof(t_pixel));
-		}
-		xyz.y++;
-		xyz.x = 0;
-	}
+	get_pixels(fd, &xyz, &pixel);
+
+	xyz.x = xyz.x / 2;
+	xyz.y = xyz.y / 2;
 	free(pixel);
 	pixel = NULL;
-	
+
 	mlx.ptr = mlx_init();
-	mlx.window = mlx_new_window(mlx.ptr, 1280, 720, "XYEBOE_OKHO");
+	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "XYEBOE_OKHO");
 	//mlx.ptr_image = mlx_new_image(mlx.ptr, 720, 540);
 	//mlx_put_image_to_window(mlx.ptr, mlx.window, mlx.ptr_image, 0, 0);
-	mlx_pixel_put(mlx.ptr, mlx.window, 355, 270, 255);
+	mlx_pixel_put(mlx.ptr, mlx.window, 960 - xyz.x, 540 - xyz.y, 0xFF0000);
 	mlx_key_hook(mlx.window, key_exit, mlx.ptr);
 	mlx_loop(mlx.ptr);
 	return (0);
