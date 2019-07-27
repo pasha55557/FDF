@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/23 14:56:52 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/07/27 18:38:00 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,10 @@
 
 typedef struct	s_pixel
 {
-	int			count;
 	int			color;
 	int			x;
 	int			y;
 	int			z;
-	struct		s_pixel *next;
 }				t_pixel;
 
 struct			s_size
@@ -40,6 +38,7 @@ struct			s_size
 
 typedef struct	s_pixel_data
 {
+	int	weigth;
 	int	x;
 	int	y;
 	int z;
@@ -52,5 +51,9 @@ typedef struct			s_mlx
 	void		*window;	
 }				t_mlx;
 
-int		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
+int			from_HEX_to_DEC(char *hex);
+int			get_color(char *line);
+void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
+t_pixel		**init_pixel(int fd);
+int			sizeof_file(int fd);
 #endif

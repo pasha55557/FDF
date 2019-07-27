@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/23 18:57:00 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/07/27 18:43:05 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,11 @@ int		get_color(char *line)
 		line++;
 	}
 	int_color = from_HEX_to_DEC(ptr_color);
-	free(ptr_color);
+	free(&ptr_color);
 	return(int_color);
 }
 
-int		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
+void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 {
 	char				*line;
 	char				*ptr_line;
@@ -67,29 +67,36 @@ int		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 	while (get_next_line(fd, &line) == 1)
 	{
 		ptr_line = line;
+		xyz->weigth = 0;
 		xyz->x = 0;
-		printf("%s\n", ptr_line);
-		while (*ptr_line != '\0')
+		printf("%s\n", line);
+		while (*line != '\0')
 		{
-			(*pixel)->z = ft_atoi(ptr_line);
-			while (*ptr_line >= '0' && *ptr_line <= '9')
-				ptr_line++;
-				if (*ptr_line == ',')
-				{
-					(*pixel)->color = get_color(ptr_line);
-					ptr_line++;
-				}
-				else
-					(*pixel)->color = 16777215;
-			while (*ptr_line == ' ')
-				ptr_line++;
-			(*pixel)->x = xyz->x;
-			(*pixel)->y = xyz->y;
-			xyz->x++;
-			(*pixel) = (*pixel)->next;
-			(*pixel) = (t_pixel*)malloc(sizeof(t_pixel));
+			
+			if (ft_isdigit(*line))
+			{
+				printf("%d   %d\n", xyz->x, xyz->y);
+				pixel[xyz->x + xyz->y * xyz->weigth]->z = ft_atoi(line);
+				pixel[xyz->x + xyz->y * xyz->weigth]->x = xyz->x;
+				xyz->x++;
+				if (xyz->weigth < xyz->x)
+					xyz->weigth = xyz->x;				
+				while (ft_isdigit(*line))
+				line++;
+			}
+			if (*line == ',')
+			{
+				pixel[xyz->x + xyz->y * xyz->weigth]->color = get_color(line);
+				line = line + 9;
+			}
+			else
+				pixel[xyz->x + xyz->y * xyz->weigth]->color = 16777215;
+			while (ft_isspace(*line))
+				line++;
+			pixel[xyz->x + xyz->y * xyz->weigth]->y = xyz->y;
 		}
 		xyz->y++;
 	}
-	return (0);
+	ft_strdel(&ptr_line);
+	//return (0);
 }
