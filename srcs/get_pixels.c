@@ -63,40 +63,45 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 {
 	char				*line;
 	char				*ptr_line;
+	int					i;
 
+	i = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
 		ptr_line = line;
-		xyz->weigth = 0;
+		xyz->weight = 0;
 		xyz->x = 0;
-		printf("%s\n", line);
+		//printf("%s\n", line);
 		while (*line != '\0')
 		{
 			
 			if (ft_isdigit(*line))
 			{
-				printf("%d   %d\n", xyz->x, xyz->y);
-				pixel[xyz->x + xyz->y * xyz->weigth]->z = ft_atoi(line);
-				pixel[xyz->x + xyz->y * xyz->weigth]->x = xyz->x;
+				//printf("%d   %d\n", xyz->x, xyz->y);
+				pixel[i]->z = ft_atoi(line);
+				pixel[i]->x = xyz->x;
 				xyz->x++;
-				if (xyz->weigth < xyz->x)
-					xyz->weigth = xyz->x;				
+				if (xyz->weight < xyz->x)
+					xyz->weight = xyz->x;				
 				while (ft_isdigit(*line))
 				line++;
 			}
 			if (*line == ',')
 			{
-				pixel[xyz->x + xyz->y * xyz->weigth]->color = get_color(line);
+				pixel[i]->color = get_color(line);
 				line = line + 9;
 			}
 			else
-				pixel[xyz->x + xyz->y * xyz->weigth]->color = 16777215;
+				pixel[i]->color = 16777215;
 			while (ft_isspace(*line))
 				line++;
-			pixel[xyz->x + xyz->y * xyz->weigth]->y = xyz->y;
+			pixel[i]->y = xyz->y;
+			i++;
 		}
 		xyz->y++;
 	}
 	ft_strdel(&ptr_line);
+	//printf("x = %d, y = %d, z = %d", pixel[2 + 2 * xyz->weight]->x, pixel[2 + 2 * xyz->weight]->y, pixel[2 + 2 * xyz->weight]->z);
+	//printf("maxx %d, maxy %d, maxz %d", xyz->x, xyz->y, xyz->z);
 	//return (0);
 }

@@ -30,7 +30,7 @@ HEADERS_DIRECTORY = ./includes/
 HEADERS = $(addprefix $(HEADERS_DIRECTORY), $(HEADERS_LIST))
 
 SOURCES_DIRECTORY = ./srcs/
-SOURCES_LIST = main.c get_pixels.c init.c
+SOURCES_LIST = main.c get_pixels.c init.c magic.c
 SOURCES = $(addprefix $(SOURCES_DIRECTORY), $(SOURCES_LIST))
 
 OBJECTS_DIRECTORY = obj/

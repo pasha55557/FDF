@@ -38,7 +38,7 @@ struct			s_size
 
 typedef struct	s_pixel_data
 {
-	int	weigth;
+	int	weight;
 	int	x;
 	int	y;
 	int z;
@@ -56,4 +56,5 @@ int			get_color(char *line);
 void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
 t_pixel		**init_pixel(int fd);
 int			sizeof_file(int fd);
+void		draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);
 #endif
