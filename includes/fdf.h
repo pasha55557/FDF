@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/27 18:38:00 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/03 19:12:57 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ typedef struct			s_mlx
 	void		*ptr_image;
 	void		*window;	
 }				t_mlx;
-
+void		iso(double *x, double *y, double z);
+void		draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);
+void		braz(double *start, double *end, t_pixel_data max_cords, t_mlx mlx);
+void		draw_line(t_pixel_data xyz, t_mlx mlx);
 int			from_HEX_to_DEC(char *hex);
 int			get_color(char *line);
 void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);

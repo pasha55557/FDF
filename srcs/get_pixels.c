@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/27 18:43:05 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/03 18:33:46 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		get_color(char *line)
 		line++;
 	}
 	int_color = from_HEX_to_DEC(ptr_color);
-	free(&ptr_color);
+	//free(&ptr_color);
 	return(int_color);
 }
 
