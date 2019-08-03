@@ -48,6 +48,8 @@ int		main(int argc, char **argv)
 	get_pixels(fd, &xyz, pixel);
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "AXYEHHOE OKHO");
+	//draw_line(xyz, mlx);
+	//draw_hor_line(pixel, xyz, mlx);
 	draw_horizontal(pixel, xyz, mlx);
 	//mlx.ptr_image = mlx_new_image(mlx.ptr, 720, 540);
 	//mlx_put_image_to_window(mlx.ptr, mlx.window, mlx.ptr_image, 0, 0);
