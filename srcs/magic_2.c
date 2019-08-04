@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/03 14:29:12 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/03 19:14:00 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/04 19:31:15 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,44 @@ void	iso(double *x, double *y, double z)
     previous_y = *y;
     *x = (previous_x - previous_y) * cos(0.523599);
     *y = ((previous_x + previous_y) * sin(0.523599)) - z;
+}
+
+int		scale(t_pixel **pixel)
+{
+	struct	s_max_cords	max_cords;
+	int		i;
+	double	x;
+	double	y;
+	int		del_x;
+	int		del_y;
+	int		scale;
+
+	max_cords.max_x = 0;
+	max_cords.max_y = 0;
+	max_cords.min_x = 0;
+	max_cords.min_y = 0;
+	i = 0;
+	while (pixel[i])
+	{
+		x = pixel[i]->x;
+		y = pixel[i]->y;
+		iso(&x, &y, pixel[i]->z);
+		if (max_cords.max_x < x)
+			max_cords.max_x = x;
+		if (max_cords.max_y < y)
+			max_cords.max_y = y;
+		if (max_cords.min_x > x)
+			max_cords.min_x = x;
+		if (max_cords.min_y > y)
+			max_cords.min_y = y;
+		i++;
+	}
+	del_x = max_cords.max_x - max_cords.min_x;
+	del_y = max_cords.max_y - max_cords.min_y;
+	scale = 1440 / del_x;
+	if (scale > (810 / del_y))
+		scale = 810 / del_y;
+		return(scale);
 }
 
 /*void		draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)

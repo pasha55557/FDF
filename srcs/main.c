@@ -46,6 +46,7 @@ int		main(int argc, char **argv)
 	pixel = init_pixel(fd);
 	fd = open(argv[1], O_RDONLY);
 	get_pixels(fd, &xyz, pixel);
+	xyz.scale = scale(pixel);
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "AXYEHHOE OKHO");
 	//draw_line(xyz, mlx);
