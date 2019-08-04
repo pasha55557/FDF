@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 17:42:41 by dnightwi          #+#    #+#             */
-/*   Updated: 2019/08/03 19:21:51 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/04 19:32:05 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,9 @@ static int		ft_abs(int i)
 	return (i);
 }
 
-void	braz(double *start, double *end, t_pixel_data max_cords, t_mlx mlx)
+void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 {
+	int zoom;
 	int	a;
 	int	b;
 	int	sign;
@@ -34,10 +35,11 @@ void	braz(double *start, double *end, t_pixel_data max_cords, t_mlx mlx)
 	int	x0;
 	int	y0;
 
-	x0 = start[0] * 30; //30 is zoom
-	y0 = start[1] * 30;
-	x1 = end[0] * 30;
-	y1 = end[1] * 30;
+	zoom = max_cords.scale;
+	x0 = cord.start_x * zoom; //50 is zoom
+	y0 = cord.start_y * zoom;
+	x1 = cord.end_x * zoom;
+	y1 = cord.end_y * zoom;
 	x = x0;
 	y = y0;
 	a = y1 - y0;
@@ -55,8 +57,7 @@ void	braz(double *start, double *end, t_pixel_data max_cords, t_mlx mlx)
 		signb = -1;
 	else
 		signb = 1;
-	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * 30/2) + x, 540 - (max_cords.y * 30/2) + y, 16777215);
-	// 960 - (max_cords.x * 30/2) + ((x - y) * cos(0.523599)), 540 - (max_cords.y * 30/2) + ((x + y) * sin(0.523599)), 16777215);
+	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 16777215);
 	if (sign == -1)
 	{
 		while (x != x1 || y != y1)
@@ -68,7 +69,7 @@ void	braz(double *start, double *end, t_pixel_data max_cords, t_mlx mlx)
 				y += signa;
 			}
 			x -= signb;
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * 30/2) + x, 540 - (max_cords.y * 30/2) + y, 16777215);
+			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 16777215);
 
 		}
 	}
@@ -83,7 +84,7 @@ void	braz(double *start, double *end, t_pixel_data max_cords, t_mlx mlx)
 				x -= signb;
 			}
 			y += signa;
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * 30/2) + x, 540 - (max_cords.y * 30/2) + y, 16777215);
+			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 16777215);
 		}
 	}
 	
@@ -93,54 +94,39 @@ static void	draw_sides(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 {
 	int	i;
 	int	j;
-	double	xyz0[3];
-	double	xyz1[3];
+	t_data_cords	cord;
 
 	i = 0;
 	j = 0;
 	while (pixel[j * xyz.weight]->y < xyz.y - 1)
 	{
-		xyz0[0] = pixel[xyz.x - 1 + j * xyz.weight]->x; //(pixel[xyz.x - 1 + j * xyz.weight]->x - pixel[xyz.x - 1 + j * xyz.weight]->y) * cos(0.523599);
-		//pixel[xyz.x - 1 + j * xyz.weight]->x;
-		xyz0[2] = pixel[xyz.x - 1 + j * xyz.weight]->z;
-		xyz0[1] = pixel[xyz.x - 1 + j * xyz.weight]->y; //-xyz0[2] + (pixel[xyz.x - 1 + j * xyz.weight]->y + pixel[xyz.x - 1 + j * xyz.weight]->x) * sin(0.523599);
-		//pixel[xyz.x - 1 + j * xyz.weight]->y - xyz0[2] * sin(0.523599);
-		//pixel[xyz.x - 1 + j * xyz.weight]->y - xyz0[2] * sin(0.523599);
-		xyz1[0] = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->x;//(pixel[xyz.x - 1 + (j + 1) * xyz.weight]->x - pixel[xyz.x - 1 + (j + 1) * xyz.weight]->y);
-		//pixel[xyz.x - 1 + (j + 1) * xyz.weight]->x;
-		xyz1[2] = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->z;
-		xyz1[1] = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->y;//-xyz1[2] + (pixel[xyz.x - 1 + (j + 1) * xyz.weight]->y + pixel[xyz.x - 1 + (j + 1) * xyz.weight]->x) * sin(0.523599);
-		iso(&xyz0[0], &xyz0[1], xyz0[2]);
-		iso(&xyz1[0], &xyz1[1], xyz1[2]);
-		//pixel[xyz.x - 1 + (j + 1) * xyz.weight]->y - xyz1[2] * sin(0.523599);
-		braz(xyz0, xyz1, xyz, mlx);
+		cord.start_x = pixel[xyz.x - 1 + j * xyz.weight]->x;
+		cord.start_y = pixel[xyz.x - 1 + j * xyz.weight]->y;
+		cord.end_x = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->x;
+		cord.end_y = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->y;
+		iso(&cord.start_x, &cord.start_y, pixel[xyz.x - 1 + j * xyz.weight]->z);
+		iso(&cord.end_x, &cord.end_y, pixel[xyz.x - 1 + (j + 1) * xyz.weight]->z);
+		braz(cord, xyz, mlx);
 		j++;
 	}
 	while (pixel[i]->x < xyz.x - 1)
 	{
-		xyz0[0] = pixel[i + (xyz.y - 1) * xyz.weight]->x;//(pixel[i + (xyz.y - 1) * xyz.weight]->x - pixel[i + (xyz.y - 1) * xyz.weight]->y) * cos(0.523599);
-		//pixel[i + (xyz.y - 1) * xyz.weight]->x;
-		xyz0[2] = pixel[i + (xyz.y - 1) * xyz.weight]->z;
-		xyz0[1] = pixel[i + (xyz.y - 1) * xyz.weight]->y;//-xyz0[2] + (pixel[i + (xyz.y - 1) * xyz.weight]->y + pixel[i + (xyz.y - 1) * xyz.weight]->x) * sin(0.523599);
-		//pixel[i + (xyz.y - 1) * xyz.weight]->y - xyz0[2] * sin(0.523599);
-		xyz1[0] = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->x;//(pixel[i + 1 + (xyz.y - 1) * xyz.weight]->x - pixel[i + 1 + (xyz.y - 1) * xyz.weight]->y) * cos(0.523599);
-		//pixel[i + 1 + (xyz.y - 1) * xyz.weight]->x;
-		xyz1[2] = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->z;
-		xyz1[1] = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->y;//-xyz1[2] + (pixel[i + 1 + (xyz.y - 1) * xyz.weight]->y + pixel[i + 1 + (xyz.y - 1) * xyz.weight]->x) * sin(0.523599);
-		//pixel[i + 1 + (xyz.y - 1) * xyz.weight]->y - xyz1[2] * sin(0.523599);
-		iso(&xyz0[0], &xyz0[1], xyz0[2]);
-		iso(&xyz1[0], &xyz1[1], xyz1[2]);
-		braz(xyz0, xyz1, xyz, mlx);
+		cord.start_x = pixel[i + (xyz.y - 1) * xyz.weight]->x;
+		cord.start_y = pixel[i + (xyz.y - 1) * xyz.weight]->y;
+		cord.end_x = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->x;
+		cord.end_y = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->y;
+		iso(&cord.start_x, &cord.start_y, pixel[i + (xyz.y - 1) * xyz.weight]->z);
+		iso(&cord.end_x, &cord.end_y, pixel[i + 1 + (xyz.y - 1) * xyz.weight]->z);
+		braz(cord, xyz, mlx);
 		i++;
 	}
 }
 
-static void	draw_vertical(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
+static void			draw_vertical(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 {
-	int	i;
-	int	j;
-	double	xyz0[3];
-	double	xyz1[3];
+	int				i;
+	int				j;
+	t_data_cords	cord;
 
 	i = 0;
 	while (pixel[i]->x < xyz.x - 1)
@@ -148,19 +134,13 @@ static void	draw_vertical(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 		j = 0;
 		while (pixel[j * xyz.weight]->y < xyz.y - 1)
 		{
-			xyz0[0] = pixel[i + j * xyz.weight]->x;//(pixel[i + j * xyz.weight]->x - pixel[i + j * xyz.weight]->y) * cos(0.523599);
-			//pixel[i + j * xyz.weight]->x;
-			xyz0[2] = pixel[i + j * xyz.weight]->z;
-			xyz0[1] = pixel[i + j * xyz.weight]->y;//-xyz0[2] + (pixel[i + j * xyz.weight]->y + pixel[i + j * xyz.weight]->x) * sin(0.523599);
-			//pixel[i + j * xyz.weight]->y - xyz0[2] * sin(0.523599);
-			xyz1[0] = pixel[i + (j + 1) * xyz.weight]->x;//(pixel[i + (j + 1) * xyz.weight]->x - pixel[i + (j + 1) * xyz.weight]->y) * cos(0.523599);
-			//pixel[i + (j + 1) * xyz.weight]->x;
-			xyz1[2] = pixel[i + (j + 1) * xyz.weight]->z;
-			xyz1[1] = pixel[i + (j + 1) * xyz.weight]->y;//-xyz1[2] + (pixel[i + (j + 1) * xyz.weight]->y + pixel[i + (j + 1) * xyz.weight]->x) * sin(0.523599);
-			//pixel[i + (j + 1) * xyz.weight]->y - xyz1[2] * sin(0.523599);
-			iso(&xyz0[0], &xyz0[1], xyz0[2]);
-			iso(&xyz1[0], &xyz1[1], xyz1[2]);
-			braz(xyz0, xyz1, xyz, mlx);
+			cord.start_x = pixel[i + j * xyz.weight]->x;
+			cord.start_y = pixel[i + j * xyz.weight]->y;
+			cord.end_x = pixel[i + (j + 1) * xyz.weight]->x;
+			cord.end_y = pixel[i + (j + 1) * xyz.weight]->y;
+			iso(&cord.start_x, &cord.start_y, pixel[i + j * xyz.weight]->z);
+			iso(&cord.end_x, &cord.end_y, pixel[i + (j + 1) * xyz.weight]->z);
+			braz(cord, xyz, mlx);
 			j++;
 		}
 		i++;
@@ -168,11 +148,10 @@ static void	draw_vertical(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 	draw_sides(pixel, xyz, mlx);
 }
 
-void	draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
+void				draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 {
-	int	i;
-	double	xyz0[3];
-	double	xyz1[3];
+	int				i;
+	t_data_cords	cord;
 
 	i = 0;
 	while (pixel[i]->y < xyz.y - 1)
@@ -182,21 +161,13 @@ void	draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 			i++;
 			continue;
 		}
-		xyz0[0] = pixel[i]->x;//(pixel[i]->x - pixel[i]->y) * cos(0.523599);
-		//pixel[i]->x;
-		xyz0[2] = pixel[i]->z;
-		xyz0[1] = pixel[i]->y;//-xyz0[2] + (pixel[i]->y + pixel[i]->x) * sin(0.523599);
-		//-xyz0[2] + (pixel[i]->x + pixel[i]->y) * sin(0.523599);
-		//pixel[i]->y - xyz0[2] * sin(0.523599);
-		xyz1[0] = pixel[i + 1]->x;//(pixel[i + 1]->x - pixel[i + 1]->y) * cos(0.523599);
-		//pixel[i + 1]->x;
-		xyz1[2] = pixel[i + 1]->z;
-		xyz1[1] = pixel[i + 1]->y;//-xyz1[2] + (pixel[i + 1]->y + pixel[i + 1]->x) * sin(0.523599);
-		//-xyz1[2] + (pixel[i + 1]->x + pixel[i + 1]->y) * sin(0.523599);
-		//pixel[i + 1]->y - xyz1[2] * sin(0.523599);
-		iso(&xyz0[0], &xyz0[1], xyz0[2]);
-		iso(&xyz1[0], &xyz1[1], xyz1[2]);
-		braz(xyz0, xyz1, xyz, mlx);
+		cord.start_x = pixel[i]->x;
+		cord.start_y = pixel[i]->y;
+		cord.end_x = pixel[i + 1]->x;
+		cord.end_y = pixel[i + 1]->y;
+		iso(&cord.start_x, &cord.start_y, pixel[i]->z);
+		iso(&cord.end_x, &cord.end_y, pixel[i + 1]->z);
+		braz(cord, xyz, mlx);
 		i++;
 	}
 	draw_vertical(pixel, xyz, mlx);
