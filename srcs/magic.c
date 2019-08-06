@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 17:42:41 by dnightwi          #+#    #+#             */
-/*   Updated: 2019/08/06 15:37:50 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:32:41 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 		signb = -1;
 	else
 		signb = 1;
-	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 16777215);
+	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 255);
 	if (sign == -1)
 	{
 		while (x != x1 || y != y1)
@@ -69,7 +69,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 				y += signa;
 			}
 			x -= signb;
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 16777215);
+			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 255);
 
 		}
 	}
@@ -84,7 +84,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 				x -= signb;
 			}
 			y += signa;
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 16777215);
+			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 255);
 		}
 	}
 	

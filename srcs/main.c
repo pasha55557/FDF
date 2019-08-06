@@ -45,7 +45,7 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	pixel = init_pixel(fd);
 	fd = open(argv[1], O_RDONLY);
-	ft_putstr("file is open");
+	ft_putstr("file is open\n");
 	get_pixels(fd, &xyz, pixel);
 	printf("координаты записаны\n");
 	xyz.scale = scale(pixel, xyz);
