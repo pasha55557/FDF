@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/06 18:31:06 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/06 19:13:28 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,9 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 		ptr_line = line;
 		xyz->weight = 0;
 		xyz->x = 0;
-		printf("%s\n", line);
+		//printf("%s\n", line);
 		while (*line != '\0')
 		{
-			
 			if (ft_isdigit(*line))
 			{
 				//printf("%d   %d\n", xyz->x, xyz->y);
@@ -84,22 +83,22 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				pixel[i]->x = xyz->x;
 				xyz->x++;
 				if (xyz->weight < xyz->x)
-					xyz->weight = xyz->x;				
+					xyz->weight = xyz->x;
+				pixel[i]->y = xyz->y;				
 				while (ft_isdigit(*line))
 				line++;
+				if (*line == ',')
+				{
+					pixel[i]->color = get_color(line);
+					while (!(ft_isspace(*line) || *line == '\0'))
+						line++;
+				}
+				else
+					pixel[i]->color = 16777215;
+				i++;
 			}
-			if (*line == ',')
-			{
-				pixel[i]->color = get_color(line);
-				while (!(ft_isspace(*line) || *line == '\0'))
-					line++;
-			}
-			else
-				pixel[i]->color = 16777215;
 			while (ft_isspace(*line))
 				line++;
-			pixel[i]->y = xyz->y;
-			i++;
 		}
 		xyz->y++;
 	}

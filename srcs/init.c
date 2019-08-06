@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/27 17:47:01 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/06 18:30:19 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/06 18:59:52 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int			sizeof_file(int fd)
 			if (*line == ',')
 				while (!(ft_isspace(*line) || *line == '\0'))
 					line++;
-			while (*line == ' ')
+			while (ft_isspace(*line))
 				line++;
 		}
 		y++;
