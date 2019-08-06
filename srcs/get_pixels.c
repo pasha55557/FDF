@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/04 18:48:25 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/06 18:31:06 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int		from_HEX_to_DEC(char *hex)
 	power--;
 	while (power != -1)
 	{
+		if (*hex >= 97 && *hex <= 102)
+			tmp[1] = 87;
 		if (*hex >= 65 && *hex <= 70)
 			tmp[1] = 55;
 		if (*hex >= '0' && *hex <= '9')
@@ -48,7 +50,7 @@ int		get_color(char *line)
 	while (*line != 'x')
 	line++;
 	line++;
-	while (*line != ' ')
+	while (!(ft_isspace(*line) || *line == '\0'))
 	{
 		*color = *line;
 		color++;
@@ -71,7 +73,7 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 		ptr_line = line;
 		xyz->weight = 0;
 		xyz->x = 0;
-		//printf("%s\n", line);
+		printf("%s\n", line);
 		while (*line != '\0')
 		{
 			
@@ -89,7 +91,8 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 			if (*line == ',')
 			{
 				pixel[i]->color = get_color(line);
-				line = line + 9;
+				while (!(ft_isspace(*line) || *line == '\0'))
+					line++;
 			}
 			else
 				pixel[i]->color = 16777215;

@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/27 17:47:01 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/27 18:45:56 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/06 18:30:19 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ t_pixel		**init_pixel(int fd)
 	t_pixel		**pixel;
 
 	size = sizeof_file(fd);
+	printf("size = %d\n", size);
 	size++;
 	pixel = (t_pixel**)malloc(sizeof(t_pixel*) * size);
 	while (size)
@@ -46,7 +47,8 @@ int			sizeof_file(int fd)
 					line++;
 			}
 			if (*line == ',')
-				line = line + 9;
+				while (!(ft_isspace(*line) || *line == '\0'))
+					line++;
 			while (*line == ' ')
 				line++;
 		}
