@@ -9,7 +9,7 @@
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "/Users/rsticks/Desktop/42/FDF/fdf",
-			"args": ["maps/t1.fdf"],
+			"args": ["maps/mini_quad.fdf"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
 			"environment": [],

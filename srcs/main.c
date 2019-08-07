@@ -39,7 +39,7 @@ int		main(int argc, char **argv)
 	xyz.z = 0;
 	if (argc != 2)
 	{
-		ft_putendl("пиздец, карты нет");
+		ft_putendl("Валидация: пиздец, карты нет");
 		return (0);
 	}
 	fd = open(argv[1], O_RDONLY);
@@ -51,7 +51,7 @@ int		main(int argc, char **argv)
 	xyz.scale = scale(pixel, xyz);
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
-	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "AXYEHHOE OKHO");
+	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "FDF");
 	//draw_line(xyz, mlx);
 	//draw_hor_line(pixel, xyz, mlx);
 	draw_horizontal(pixel, xyz, mlx);

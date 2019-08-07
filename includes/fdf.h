@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/06 15:30:05 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/07 18:00:05 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,9 @@ typedef struct			s_mlx
 	void				*window;	
 }						t_mlx;
 
+int						ft_abs(int i);
+int						get_cur_color(t_pixel current, t_data_cords cord);
+double					percent(int start, int end, int current);
 int						scale(t_pixel **pixel, t_pixel_data xyz);
 void					iso(double *x, double *y, double z);
 void					draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);

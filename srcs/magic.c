@@ -6,13 +6,13 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 17:42:41 by dnightwi          #+#    #+#             */
-/*   Updated: 2019/08/06 19:32:41 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/07 18:37:58 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-static int		ft_abs(int i)
+int		ft_abs(int i)
 {
 	if (i < 0)
 		i *= -1;
@@ -21,6 +21,7 @@ static int		ft_abs(int i)
 
 void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 {
+	t_pixel current;
 	int zoom;
 	int	a;
 	int	b;
@@ -34,6 +35,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 	int	y1;
 	int	x0;
 	int	y0;
+	int color;
 
 	zoom = max_cords.scale;
 	x0 = cord.start_x * zoom; //50 is zoom
@@ -45,6 +47,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 	a = y1 - y0;
 	b = x0 - x1;
 	f = 0;
+	color = cord.start_color;
 	if (ft_abs(a) > ft_abs(b))
 		sign = 1;
 	else
@@ -57,7 +60,11 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 		signb = -1;
 	else
 		signb = 1;
-	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 255);
+			cord.start_x = x0;
+			cord.end_x = x1;
+			cord.start_y = y0;
+			cord.end_y = y1;
+	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, color);
 	if (sign == -1)
 	{
 		while (x != x1 || y != y1)
@@ -69,7 +76,11 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 				y += signa;
 			}
 			x -= signb;
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 255);
+			current.x = x;
+			current.y = y;
+			current.color = color;
+			color = get_cur_color(current, cord);
+			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, color);
 
 		}
 	}
@@ -84,7 +95,11 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 				x -= signb;
 			}
 			y += signa;
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, 255);
+			current.x = x;
+			current.y = y;
+			current.color = color;
+			color = get_cur_color(current, cord);
+			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, color);
 		}
 	}
 	
@@ -106,6 +121,8 @@ static void	draw_sides(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 		cord.end_y = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->y;
 		iso(&cord.start_x, &cord.start_y, pixel[xyz.x - 1 + j * xyz.weight]->z);
 		iso(&cord.end_x, &cord.end_y, pixel[xyz.x - 1 + (j + 1) * xyz.weight]->z);
+		cord.start_color = pixel[xyz.x - 1 + j * xyz.weight]->color;
+		cord.end_color = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->color;
 		braz(cord, xyz, mlx);
 		j++;
 	}
@@ -117,6 +134,8 @@ static void	draw_sides(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 		cord.end_y = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->y;
 		iso(&cord.start_x, &cord.start_y, pixel[i + (xyz.y - 1) * xyz.weight]->z);
 		iso(&cord.end_x, &cord.end_y, pixel[i + 1 + (xyz.y - 1) * xyz.weight]->z);
+		cord.start_color = pixel[i + (xyz.y - 1) * xyz.weight]->color;
+		cord.end_color = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->color;
 		braz(cord, xyz, mlx);
 		i++;
 	}
@@ -140,6 +159,8 @@ static void			draw_vertical(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 			cord.end_y = pixel[i + (j + 1) * xyz.weight]->y;
 			iso(&cord.start_x, &cord.start_y, pixel[i + j * xyz.weight]->z);
 			iso(&cord.end_x, &cord.end_y, pixel[i + (j + 1) * xyz.weight]->z);
+			cord.start_color = pixel[i + j * xyz.weight]->color;
+			cord.end_color = pixel[i + (j + 1) * xyz.weight]->color;
 			braz(cord, xyz, mlx);
 			j++;
 		}
@@ -167,6 +188,8 @@ void				draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx)
 		cord.end_y = pixel[i + 1]->y;
 		iso(&cord.start_x, &cord.start_y, pixel[i]->z);
 		iso(&cord.end_x, &cord.end_y, pixel[i + 1]->z);
+		cord.start_color = pixel[i]->color;
+		cord.end_color = pixel[i + 1]->color;
 		braz(cord, xyz, mlx);
 		i++;
 	}

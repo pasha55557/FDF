@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/06 19:13:28 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/07 19:00:26 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		from_HEX_to_DEC(char *hex)
 		if (*hex >= 65 && *hex <= 70)
 			tmp[1] = 55;
 		if (*hex >= '0' && *hex <= '9')
-			tmp[1] = *hex;
+			tmp[1] = 48;
 		//tmp[0] = (*hex - tmp[1]);
 		tmp[0] = (*hex - tmp[1]) * pow(16, power);
 		dec = dec + tmp[0];
@@ -95,6 +95,7 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				}
 				else
 					pixel[i]->color = 16777215;
+					//printf("номер координаты = %d, цвет = %d\n", i, pixel[i]->color);
 				i++;
 			}
 			while (ft_isspace(*line))

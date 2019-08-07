@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/03 14:29:12 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/06 16:57:46 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/07 17:59:27 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,41 @@ int		scale(t_pixel **pixel, t_pixel_data xyz)
 		scale[0] = scale[1];
 	printf("zoom = %d\n", scale[0]);
 		return(scale[0]);
+}
+
+double		percent(int start, int end, int avr)
+{
+    double placement;
+    double distance;
+
+    placement = avr - start;
+    distance = end - start;
+    return ((distance == 0) ? 1.0 : (placement / distance));
+}
+
+int get_light(int start, int end, double percentage)
+{
+    return ((int)((1 - percentage) * start + percentage * end));
+}
+
+int get_cur_color(t_pixel current, t_data_cords cord)
+{
+    int     red;
+    int     green;
+    int     blue;
+    double  percentage;
+	t_pixel	delta;
+
+	delta.x = ft_abs(cord.start_x - cord.end_x);
+	delta.y = ft_abs(cord.start_y - cord.end_y);
+    if (current.color == cord.end_color)
+        return (current.color);
+    if (delta.x > delta.y)
+        percentage = percent(cord.start_x, cord.end_x, current.x);
+    else
+        percentage = percent(cord.start_y, cord.end_y, current.y);
+    red = get_light((cord.start_color >> 16) & 0xFF, (cord.end_color >> 16) & 0xFF, percentage);
+    green = get_light((cord.start_color >> 8) & 0xFF, (cord.end_color >> 8) & 0xFF, percentage);
+    blue = get_light(cord.start_color & 0xFF, cord.end_color & 0xFF, percentage);
+    return ((red << 16) | (green << 8) | blue);
 }
