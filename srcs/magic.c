@@ -64,7 +64,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 			cord.end_x = x1;
 			cord.start_y = y0;
 			cord.end_y = y1;
-	mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, color);
+	mlx_pixel_put(mlx.ptr, mlx.window, (960 - (max_cords.x * zoom/4) + x) + mlx.mv_x, (540 - (max_cords.y * zoom/2) + y) + mlx.mv_y, color);
 	if (sign == -1)
 	{
 		while (x != x1 || y != y1)
@@ -80,7 +80,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 			current.y = y;
 			current.color = color;
 			color = get_cur_color(current, cord);
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, color);
+			mlx_pixel_put(mlx.ptr, mlx.window, (960 - (max_cords.x * zoom/4) + x) + mlx.mv_x, (540 - (max_cords.y * zoom/2) + y) + mlx.mv_y, color);
 
 		}
 	}
@@ -99,7 +99,7 @@ void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 			current.y = y;
 			current.color = color;
 			color = get_cur_color(current, cord);
-			mlx_pixel_put(mlx.ptr, mlx.window, 960 - (max_cords.x * zoom/4) + x, 540 - (max_cords.y * zoom/2) + y, color);
+			mlx_pixel_put(mlx.ptr, mlx.window, (960 - (max_cords.x * zoom/4) + x) + mlx.mv_x, (540 - (max_cords.y * zoom/2) + y) + mlx.mv_y, color);
 		}
 	}
 	

@@ -67,8 +67,20 @@ typedef struct			s_mlx
 {
 	void				*ptr;
 	void				*ptr_image;
-	void				*window;	
+	void				*window;
+	int					mv_y;
+	int					mv_x;	
 }						t_mlx;
+
+typedef struct 			s_dta
+{
+	//t_data_cords		cords;
+	t_pixel				**pixel;
+	t_pixel_data		xyz;
+	t_mlx				mlx;
+
+}						t_dta;
+
 
 int						ft_abs(int i);
 int						get_cur_color(t_pixel current, t_data_cords cord);
