@@ -64,10 +64,10 @@ int		main(int argc, char **argv)
 	t_dta				*data;
 
 
-	size.height = 0;
+	/*size.height = 0; trash, programm works perfectly fine without it
 	xyz.x = 0;
 	xyz.y = 0;
-	xyz.z = 0;
+	xyz.z = 0;*/
 	if (argc != 2)
 	{
 		ft_putendl("Валидация: пиздец, карты нет"); //write usage, also add error if fd is incorrect
