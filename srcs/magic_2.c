@@ -12,13 +12,36 @@
 
 #include "../includes/fdf.h"
 
-void	iso(double *x, double *y, double z)
+void	iso(double *x, double *y, double z, t_angle angle)
 {
-    int previous_x;
-    int previous_y;
+    double previous_x;
+    double previous_y;
+	double	previous_z;
 
     previous_x = *x;
     previous_y = *y;
+	previous_z = z;
+	if (angle.x != 0)
+	{
+		*y = previous_y * cos(angle.x) + previous_z * sin(angle.x);
+		z = -previous_y * sin(angle.x) + previous_z * cos(angle.x);
+		previous_y = *y;
+		previous_z = z;
+	}
+	if (angle.y != 0)
+	{
+		*x = previous_x * cos(angle.y) + previous_z * sin(angle.y);
+		z = -previous_x * sin(angle.y) + previous_z * cos(angle.y);
+		previous_x = *x;
+		previous_z = z;
+	}
+	if (angle.z != 0)
+	{
+		*x = previous_x * cos(angle.z) - previous_y * sin(angle.z);
+		*y = previous_x * sin(angle.z) + previous_y * cos(angle.z);
+		previous_x = *x;
+		previous_y = *y;
+	}
     *x = (previous_x - previous_y) * cos(0.523599);
     *y = ((previous_x + previous_y) * sin(0.523599)) - z;
 }
@@ -42,7 +65,7 @@ int		scale(t_pixel **pixel, t_pixel_data xyz)
 	{
 		x = pixel[i]->x;
 		y = pixel[i]->y;
-		iso(&x, &y, pixel[i]->z);
+		//iso(&x, &y, pixel[i]->z);
 		x = 960 - xyz.x + x;
 		y = 540 - xyz.y/2 + y;
 		if (max_cords.max_x < x)
