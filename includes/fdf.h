@@ -63,18 +63,28 @@ typedef struct			s_pixel_data
 	int 				scale;
 }						t_pixel_data;
 
+typedef struct			s_angle
+{
+	double				x;
+	double				y;
+	double				z;
+}						t_angle;
+
 typedef struct			s_mlx
 {
 	void				*ptr;
 	void				*ptr_image;
 	void				*window;
 	int					mv_y;
-	int					mv_x;	
+	int					mv_x;
+	t_angle				angle;
 }						t_mlx;
+
+
 
 typedef struct 			s_dta
 {
-	//t_data_cords		cords;
+	t_angle				angle;
 	t_pixel				**pixel;
 	t_pixel_data		xyz;
 	t_mlx				mlx;
@@ -86,7 +96,7 @@ int						ft_abs(int i);
 int						get_cur_color(t_pixel current, t_data_cords cord);
 double					percent(int start, int end, int current);
 int						scale(t_pixel **pixel, t_pixel_data xyz);
-void					iso(double *x, double *y, double z);
+void					iso(double *x, double *y, double z, t_angle angle);
 void					draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);
 void					braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx);
 void					draw_line(t_pixel_data xyz, t_mlx mlx);
@@ -95,5 +105,5 @@ int						get_color(char *line);
 void					get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
 t_pixel					**init_pixel(int fd);
 int						sizeof_file(int fd);
-void					draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);
+void					draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx, t_angle angle);
 #endif
