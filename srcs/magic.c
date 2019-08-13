@@ -19,90 +19,69 @@ int		ft_abs(int i)
 	return (i);
 }
 
+void	draw_1(t_braz *inf, t_pixel *current, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
+{
+	while (inf->x != inf->x1 || inf->y != inf->y1)
+	{
+		inf->f += inf->a * inf->signa;
+		if (ft_abs(inf->f) > ft_abs(inf->f - ft_abs(inf->b)))
+		{
+			inf->f -= inf->b * inf->signb;
+			inf->y += inf->signa;
+		}
+		inf->x -= inf->signb;
+		current->x = inf->x;
+		current->y = inf->y;
+		current->color = inf->color;
+		inf->color = get_cur_color(*current, cord);
+		mlx_pixel_put(mlx.ptr, mlx.window, ((960 - (max_cords.x * max_cords.scale/4) + inf->x) + mlx.mv_x), (540 - (max_cords.y * max_cords.scale/2) + inf->y) + mlx.mv_y, inf->color);
+	}
+}
+
+void	draw_2(t_braz *inf, t_pixel *current, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
+{
+	while (inf->x != inf->x1 || inf->y != inf->y1)
+		{
+			inf->f += inf->b * inf->signb;
+			if (ft_abs(inf->f) > ft_abs(inf->f - ft_abs(inf->a)))
+			{
+				inf->f -= inf->a * inf->signa;
+				inf->x -= inf->signb;
+			}
+			inf->y += inf->signa;
+			current->x = inf->x;
+			current->y = inf->y;
+			current->color = inf->color;
+			inf->color = get_cur_color(*current, cord);
+			mlx_pixel_put(mlx.ptr, mlx.window, ((960 - (max_cords.x * max_cords.scale/4) + inf->x) + mlx.mv_x), (540 - (max_cords.y * max_cords.scale/2) + inf->y) + mlx.mv_y, inf->color);
+		}
+}
+
 void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 {
 	t_pixel current;
-	int zoom;
-	int	a;
-	int	b;
-	int	sign;
-	int	signa;
-	int	signb;
-	int	f;
-	int	x;
-	int	y;
-	int	x1;
-	int	y1;
-	int	x0;
-	int	y0;
-	int color;
+	t_braz	inf;
 
-	zoom = max_cords.scale;
-	x0 = cord.start_x * zoom;
-	y0 = cord.start_y * zoom;
-	x1 = cord.end_x * zoom;
-	y1 = cord.end_y * zoom;
-	x = x0;
-	y = y0;
-	a = y1 - y0;
-	b = x0 - x1;
-	f = 0;
-	color = cord.start_color;
-	if (ft_abs(a) > ft_abs(b))
-		sign = 1;
+	inf.x1 = cord.end_x * max_cords.scale;
+	inf.y1 = cord.end_y * max_cords.scale;
+	inf.x = cord.start_x * max_cords.scale;
+	inf.y = cord.start_y * max_cords.scale;
+	inf.a = inf.y1 - inf.y;
+	inf.b = inf.x - inf.x1;
+	inf.f = 0;
+	inf.color = cord.start_color;
+	inf.sign = (ft_abs(inf.a) > ft_abs(inf.b)) ? 1 : -1;
+	inf.signa = (inf.a < 0) ? -1 : 1;
+	inf.signb = (inf.b < 0) ? -1 : 1;
+	cord.start_x = inf.x;
+	cord.end_x = inf.x1;
+	cord.start_y = inf.y;
+	cord.end_y = inf.y1;
+	mlx_pixel_put(mlx.ptr, mlx.window, ((960 - (max_cords.x * max_cords.scale/4) + inf.x) + mlx.mv_x), (540 - (max_cords.y * max_cords.scale/2) + inf.y) + mlx.mv_y, inf.color);
+	if (inf.sign == -1)
+		draw_1(&inf, &current, cord, mlx, max_cords);
 	else
-		sign = -1;
-	if (a < 0)
-		signa = -1;
-	else
-		signa = 1;
-	if (b < 0)
-		signb = -1;
-	else
-		signb = 1;
-			cord.start_x = x0;
-			cord.end_x = x1;
-			cord.start_y = y0;
-			cord.end_y = y1;
-	mlx_pixel_put(mlx.ptr, mlx.window, ((960 - (max_cords.x * zoom/4) + x) + mlx.mv_x), (540 - (max_cords.y * zoom/2) + y) + mlx.mv_y, color);
-	if (sign == -1)
-	{
-		while (x != x1 || y != y1)
-		{
-			f += a * signa;
-			if (ft_abs(f) > ft_abs(f - ft_abs(b)))
-			{
-				f -= b * signb;
-				y += signa;
-			}
-			x -= signb;
-			current.x = x;
-			current.y = y;
-			current.color = color;
-			color = get_cur_color(current, cord);
-			mlx_pixel_put(mlx.ptr, mlx.window, ((960 - (max_cords.x * zoom/4) + x) + mlx.mv_x), (540 - (max_cords.y * zoom/2) + y) + mlx.mv_y, color);
-
-		}
-	}
-	else
-	{
-		while (x != x1 || y != y1)
-		{
-			f += b * signb;
-			if (ft_abs(f) > ft_abs(f - ft_abs(a)))
-			{
-				f -= a * signa;
-				x -= signb;
-			}
-			y += signa;
-			current.x = x;
-			current.y = y;
-			current.color = color;
-			color = get_cur_color(current, cord);
-			mlx_pixel_put(mlx.ptr, mlx.window, ((960 - (max_cords.x * zoom/4) + x) + mlx.mv_x), (540 - (max_cords.y * zoom/2) + y) + mlx.mv_y, color);
-		}
-	}
-	
+		draw_2(&inf, &current, cord, mlx, max_cords);
 }
 
 static void	draw_sides(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx, t_angle angle)

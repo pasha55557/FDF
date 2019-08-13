@@ -91,11 +91,29 @@ typedef struct 			s_dta
 
 }						t_dta;
 
+typedef struct			s_braz
+{
+	int					a;
+	int					b;
+	int					sign;
+	int					signa;
+	int					signb;
+	int					f;
+	int					x;
+	int					y;
+	int					x1;
+	int					y1;
+	int					x0;
+	int					y0;
+	int					color;
+}						t_braz;
+
+
 
 int						ft_abs(int i);
 int						get_cur_color(t_pixel current, t_data_cords cord);
 double					percent(int start, int end, int current);
-int						scale(t_pixel **pixel, t_pixel_data xyz);
+int						scale(t_pixel **pixel, t_pixel_data xyz, t_angle);
 void					iso(double *x, double *y, double z, t_angle angle);
 void					draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);
 void					braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx);
