@@ -94,7 +94,7 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 						line++;
 				}
 				else
-					pixel[i]->color = 16777215;
+					pixel[i]->color = 33289;
 					//printf("номер координаты = %d, цвет = %d\n", i, pixel[i]->color);
 				i++;
 			}

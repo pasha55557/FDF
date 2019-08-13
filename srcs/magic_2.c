@@ -46,7 +46,7 @@ void	iso(double *x, double *y, double z, t_angle angle)
     *y = ((previous_x + previous_y) * sin(0.523599)) - z;
 }
 
-int		scale(t_pixel **pixel, t_pixel_data xyz)
+int		scale(t_pixel **pixel, t_pixel_data xyz, t_angle angle)
 {
 	struct	s_max_cords	max_cords;
 	int		i;
@@ -65,7 +65,7 @@ int		scale(t_pixel **pixel, t_pixel_data xyz)
 	{
 		x = pixel[i]->x;
 		y = pixel[i]->y;
-		//iso(&x, &y, pixel[i]->z);
+		iso(&x, &y, pixel[i]->z, angle);
 		x = 960 - xyz.x + x;
 		y = 540 - xyz.y/2 + y;
 		if (max_cords.max_x < x)

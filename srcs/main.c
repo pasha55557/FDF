@@ -12,68 +12,39 @@
 
 #include "../includes/fdf.h"
 
-void	move_z(t_dta **data, int move)
+void	move_z(t_dta **data, double move)
 {
 	int i;
 
 	i = 0;
 	while (i < (*data)->xyz.x * (*data)->xyz.y)
 	{
-		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z + move > 0)
-			(*data)->pixel[i]->z += move;
+		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z * move > 1)
+			(*data)->pixel[i]->z *= move;
 		i++;
 	}
 }
-
-/*void	x_rotation(t_dta **data)
-{
-	int	i;
-	double	dz;
-	double	dy;
-
-	i = 0;
-	while (i < (*data)->xyz.x * (*data)->xyz.y)
-	{
-		dy = (*data)->pixel[i]->y * cos((*data)->mlx.angle_x) + (*data)->pixel[i]->z * sin((*data)->mlx.angle_x);
-		dz = -(*data)->pixel[i]->y * sin((*data)->mlx.angle_x) + (*data)->pixel[i]->z * cos((*data)->mlx.angle_x);
-		(*data)->pixel[i]->y = dy;
-		(*data)->pixel[i]->z = dz;
-		i++;
-	}
-}*/
 
 int		key_hook(int key, t_dta *data)
 {
 	if (key == 53)
 		exit(1); //need to clean everything before exit
-	else if (key == 69)  //when plus on numpad is pressed, zoom in (+) image
-		data->xyz.scale += 1;
-	else if (key == 78 && data->xyz.scale - 1 >= 0) //when minus on numpad is pressed, zoom out (-) image
-		data->xyz.scale -= 1;
+	else if (key == 69 || key == 78)  //when plus on numpad is pressed, zoom in (+) image
+		data->xyz.scale += (key == 69) ? 1 : -1;
 	else if (key == 18) //press 1 to increase z
-		move_z(&data, 1);
+		move_z(&data, 2);
 	else if (key == 19) //press 2 to decrease z
-		move_z(&data, -1);
-	else if (key == 126) //press up (on the arrows) to move image upper
-		data->mlx.mv_y += -5;
-	else if (key == 125)
-		data->mlx.mv_y += 5;
-	else if (key == 123)
-		data->mlx.mv_x += -5;
-	else if (key == 124)
-		data->mlx.mv_x += 5;
-	else if (key == 13) //w
-		data->angle.x -= 0.01;
-	else if (key == 1) //s
-		data->angle.x += 0.01;
-	else if (key == 0) //a 
-		data->angle.y += 0.01;
-	else if (key == 2) //d
-		data->angle.y -= 0.01;
-	else if (key == 25)
-		data->angle.z += 0.01; //9
-	else if (key == 29)
-		data->angle.z -= 0.01; //0
+		move_z(&data, 0.5);
+	else if (key == 126 || key == 125) //press up (on the arrows) to move image upper
+		data->mlx.mv_y += (key == 126) ? -5 : 5;
+	else if (key == 123 || key == 124)
+		data->mlx.mv_x += (key == 123) ? -5 : 5;
+	else if (key == 13 || key == 1) //w
+		data->angle.x -= (key == 13) ? 0.01 : -0.01;
+	else if (key == 0 || key == 2) //a 
+		data->angle.y -= (key == 0) ? 0.01 : -0.01;
+	else if (key == 25 || key == 29) // to rotate press 9 or 0 by z axis
+		data->angle.z += (key == 25) ? 0.01 : -0.01; //9
 	mlx_clear_window(data->mlx.ptr, data->mlx.window);
 	draw_horizontal(data->pixel, data->xyz, data->mlx, data->angle);
 	return (0);
@@ -92,10 +63,6 @@ int		main(int argc, char **argv)
 	t_angle				angle;
 
 
-	/*size.height = 0; trash, programm works perfectly fine without it
-	xyz.x = 0;
-	xyz.y = 0;
-	xyz.z = 0;*/
 	if (argc != 2)
 	{
 		ft_putendl("Валидация: пиздец, карты нет"); //write usage, also add error if fd is incorrect
@@ -107,24 +74,16 @@ int		main(int argc, char **argv)
 	ft_putstr("file is open\n");
 	get_pixels(fd, &xyz, pixel);
 	printf("координаты записаны\n");
-	xyz.scale = scale(pixel, xyz);
-	//xyz.move_x = 0;
-	//xyz.move_y = 0;
 	angle.x = 0;
 	angle.y = 0;
 	angle.z = 0;
 	mlx.mv_x = 0;
 	mlx.mv_y = 0;
+	xyz.scale = scale(pixel, xyz, angle);
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "FDF");
-	//draw_line(xyz, mlx);
-	//draw_hor_line(pixel, xyz, mlx);
 	draw_horizontal(pixel, xyz, mlx, angle);
-	//mlx.ptr_image = mlx_new_image(mlx.ptr, 720, 540);
-	//mlx_put_image_to_window(mlx.ptr, mlx.window, mlx.ptr_image, 0, 0);
-	//mlx_pixel_put(mlx.ptr, mlx.window, 960 - xyz.x, 540 - xyz.y, 0xFF0000);
-	//good way to store information
 	data->pixel = pixel;
 	data->mlx = mlx;
 	data->xyz = xyz;
