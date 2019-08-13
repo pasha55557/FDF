@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/27 17:47:01 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/06 18:59:52 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/12 17:03:45 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,37 @@
 
 t_pixel		**init_pixel(int fd)
 {
+	int			color_id;
 	int			size;
 	t_pixel		**pixel;
 
-	size = sizeof_file(fd);
+	color_id = 0;
+	size = sizeof_file(fd, &color_id);
 	printf("size = %d\n", size);
 	size++;
 	pixel = (t_pixel**)malloc(sizeof(t_pixel*) * size);
 	while (size)
 		pixel[--size] = (t_pixel*)malloc(sizeof(t_pixel));
+	pixel[0]->color = color_id;
 	return (pixel);
 }
 
-int			sizeof_file(int fd)
+int			sizeof_file(int fd, int *color)
 {
 	char				*ptr_line;
 	char				*line;
 	int					x;
 	int					y;
+	int					i;
 
 	ptr_line = line;
 	y = 0;
+	i = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
+		if (i == 0)
+			ptr_line = line;
+		i++;
 		x = 0;
 		while (*line != '\0')
 		{
@@ -47,14 +55,17 @@ int			sizeof_file(int fd)
 					line++;
 			}
 			if (*line == ',')
+			{
+				*color = 1;
 				while (!(ft_isspace(*line) || *line == '\0'))
 					line++;
+			}
 			while (ft_isspace(*line))
 				line++;
 		}
 		y++;
 	}
-	ft_strdel(&ptr_line);
+	free(ptr_line);
 	close(fd);
 	return (x * y);
 }
