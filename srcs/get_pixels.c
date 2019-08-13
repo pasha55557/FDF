@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/13 15:21:19 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/13 17:23:37 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,9 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				line++;
 		}
 		xyz->y++;
+		ft_strdel(&ptr_line);
 	}
-	ft_strdel(&ptr_line);
+	ft_strdel(&line);
 	//printf("x = %d, y = %d, z = %d", pixel[2 + 2 * xyz->weight]->x, pixel[2 + 2 * xyz->weight]->y, pixel[2 + 2 * xyz->weight]->z);
 	//printf("maxx %d, maxy %d, maxz %d", xyz->x, xyz->y, xyz->z);
 	//return (0);

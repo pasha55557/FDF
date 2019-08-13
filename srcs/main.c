@@ -20,7 +20,7 @@ void	move_z(t_dta **data, int move)
 	while (i < (*data)->xyz.x * (*data)->xyz.y)
 	{
 		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z + move > 0)
-			(*data)->pixel[i]->z += move;
+			(*data)->pixel[i]->z *= move;
 		i++;
 	}
 }
@@ -51,9 +51,9 @@ int		key_hook(int key, t_dta *data)
 	else if (key == 78 && data->xyz.scale - 1 >= 0) //when minus on numpad is pressed, zoom out (-) image
 		data->xyz.scale -= 1;
 	else if (key == 18) //press 1 to increase z
-		move_z(&data, 1);
+		move_z(&data, 2);
 	else if (key == 19) //press 2 to decrease z
-		move_z(&data, -1);
+		move_z(&data, -2);
 	else if (key == 126) //press up (on the arrows) to move image upper
 		data->mlx.mv_y += -5;
 	else if (key == 125)
@@ -87,7 +87,6 @@ int		main(int argc, char **argv)
 	t_mlx				mlx;
 	int					fd;
 	int					zoom;
-	//void				*win;  //cant understand what this thing do, but without it doesnt work
 	t_dta				*data;
 	t_angle				angle;
 

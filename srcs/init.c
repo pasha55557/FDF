@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/27 17:47:01 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/12 17:03:45 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/13 17:21:08 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,12 @@ int			sizeof_file(int fd, int *color)
 	char				*line;
 	int					x;
 	int					y;
-	int					i;
 
 	ptr_line = line;
 	y = 0;
-	i = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
-		if (i == 0)
-			ptr_line = line;
-		i++;
+		ptr_line = line;
 		x = 0;
 		while (*line != '\0')
 		{
@@ -64,8 +60,9 @@ int			sizeof_file(int fd, int *color)
 				line++;
 		}
 		y++;
+		ft_strdel(&ptr_line);
 	}
-	free(ptr_line);
+	ft_strdel(&line);
 	close(fd);
 	return (x * y);
 }
