@@ -58,7 +58,7 @@ int		main(int argc, char **argv)
 	t_mlx				mlx;
 	int					fd;
 	int					zoom;
-	void				*win;  //cant understand what this thing do, but without it doesnt work
+	//void				*win;  //cant understand what this thing do, but without it doesnt work
 	t_dta				*data;
 	t_angle				angle;
 
@@ -79,11 +79,19 @@ int		main(int argc, char **argv)
 	angle.z = 0;
 	mlx.mv_x = 0;
 	mlx.mv_y = 0;
+<<<<<<< HEAD
 	xyz.scale = scale(pixel, xyz, angle);
+=======
+	data = (t_dta*)malloc(sizeof(t_dta));
+>>>>>>> 090b501d3e363a79b33addf52f8708100ed0934d
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "FDF");
 	draw_horizontal(pixel, xyz, mlx, angle);
+<<<<<<< HEAD
+=======
+	//good way to store information
+>>>>>>> 090b501d3e363a79b33addf52f8708100ed0934d
 	data->pixel = pixel;
 	data->mlx = mlx;
 	data->xyz = xyz;
