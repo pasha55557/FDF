@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/07 18:00:05 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/13 14:59:32 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct			s_pixel
 	int					x;
 	int					y;
 	int					z;
+	int					moves_count;
 }						t_pixel;
 
 struct					s_size
@@ -61,6 +62,7 @@ typedef struct			s_pixel_data
 	int					y;
 	int					z;
 	int 				scale;
+
 }						t_pixel_data;
 
 typedef struct			s_angle
@@ -122,6 +124,6 @@ int						from_HEX_to_DEC(char *hex);
 int						get_color(char *line);
 void					get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
 t_pixel					**init_pixel(int fd);
-int						sizeof_file(int fd);
 void					draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx, t_angle angle);
+int						sizeof_file(int fd, int *color);
 #endif

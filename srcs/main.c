@@ -19,8 +19,27 @@ void	move_z(t_dta **data, double move)
 	i = 0;
 	while (i < (*data)->xyz.x * (*data)->xyz.y)
 	{
-		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z * move > 1)
+		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z * move * (*data)->pixel[i]->moves_count > 2)
+		{
+			(*data)->pixel[i]->z *= move * (*data)->pixel[i]->moves_count;
+			(*data)->pixel[i]->moves_count--;
+		}
+		i++;
+	}
+}
+
+void	move_z_decrease(t_dta **data, double move)
+{
+	int i;
+
+	i = 0;
+	while (i < (*data)->xyz.x * (*data)->xyz.y)
+	{
+		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z * move > 2)
+		{
 			(*data)->pixel[i]->z *= move;
+			(*data)->pixel[i]->moves_count++;
+		}
 		i++;
 	}
 }
@@ -34,7 +53,7 @@ int		key_hook(int key, t_dta *data)
 	else if (key == 18) //press 1 to increase z
 		move_z(&data, 2);
 	else if (key == 19) //press 2 to decrease z
-		move_z(&data, 0.5);
+		move_z_decrease(&data, 0.5);
 	else if (key == 126 || key == 125) //press up (on the arrows) to move image upper
 		data->mlx.mv_y += (key == 126) ? -5 : 5;
 	else if (key == 123 || key == 124)
@@ -58,7 +77,6 @@ int		main(int argc, char **argv)
 	t_mlx				mlx;
 	int					fd;
 	int					zoom;
-	void				*win;  //cant understand what this thing do, but without it doesnt work
 	t_dta				*data;
 	t_angle				angle;
 
@@ -74,6 +92,7 @@ int		main(int argc, char **argv)
 	ft_putstr("file is open\n");
 	get_pixels(fd, &xyz, pixel);
 	printf("координаты записаны\n");
+	data = (t_dta *)malloc(sizeof(t_dta));
 	angle.x = 0;
 	angle.y = 0;
 	angle.z = 0;
