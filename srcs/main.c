@@ -12,34 +12,28 @@
 
 #include "../includes/fdf.h"
 
-void	move_z(t_dta **data, double move)
+void	move_z(t_dta **data)
 {
 	int i;
 
 	i = 0;
+	(*data)->angle.moves_count += 0.03;
 	while (i < (*data)->xyz.x * (*data)->xyz.y)
 	{
-		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z * move * (*data)->pixel[i]->moves_count > 2)
-		{
-			(*data)->pixel[i]->z *= move * (*data)->pixel[i]->moves_count;
-			(*data)->pixel[i]->moves_count--;
-		}
+		(*data)->pixel[i]->z = (*data)->angle.moves_count * (*data)->pixel[i]->z1;
 		i++;
 	}
 }
 
-void	move_z_decrease(t_dta **data, double move)
+void	move_z_decrease(t_dta **data)
 {
 	int i;
 
 	i = 0;
+	(*data)->angle.moves_count -= 0.03;
 	while (i < (*data)->xyz.x * (*data)->xyz.y)
 	{
-		if ((*data)->pixel[i]->z != 0 && (*data)->pixel[i]->z * move > 2)
-		{
-			(*data)->pixel[i]->z *= move;
-			(*data)->pixel[i]->moves_count++;
-		}
+		(*data)->pixel[i]->z = (*data)->angle.moves_count * (*data)->pixel[i]->z1;
 		i++;
 	}
 }
@@ -51,9 +45,9 @@ int		key_hook(int key, t_dta *data)
 	else if (key == 69 || key == 78)  //when plus on numpad is pressed, zoom in (+) image
 		data->xyz.scale += (key == 69) ? 1 : -1;
 	else if (key == 18) //press 1 to increase z
-		move_z(&data, 2);
+		move_z(&data);
 	else if (key == 19) //press 2 to decrease z
-		move_z_decrease(&data, 0.5);
+		move_z_decrease(&data);
 	else if (key == 126 || key == 125) //press up (on the arrows) to move image upper
 		data->mlx.mv_y += (key == 126) ? -5 : 5;
 	else if (key == 123 || key == 124)
@@ -98,6 +92,7 @@ int		main(int argc, char **argv)
 	angle.z = 0;
 	mlx.mv_x = 0;
 	mlx.mv_y = 0;
+	angle.moves_count = 1;
 	xyz.scale = scale(pixel, xyz, angle);
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
