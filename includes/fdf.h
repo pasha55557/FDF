@@ -37,8 +37,8 @@ typedef struct			s_pixel
 	int					color;
 	int					x;
 	int					y;
-	int					z;
-	int					moves_count;
+	double				z;
+	double				z1;
 }						t_pixel;
 
 struct					s_size
@@ -70,6 +70,7 @@ typedef struct			s_angle
 	double				x;
 	double				y;
 	double				z;
+	double				moves_count;
 }						t_angle;
 
 typedef struct			s_mlx
