@@ -87,7 +87,7 @@ int		main(int argc, char **argv)
 	t_mlx				mlx;
 	int					fd;
 	int					zoom;
-	void				*win;  //cant understand what this thing do, but without it doesnt work
+	//void				*win;  //cant understand what this thing do, but without it doesnt work
 	t_dta				*data;
 	t_angle				angle;
 
@@ -108,22 +108,17 @@ int		main(int argc, char **argv)
 	get_pixels(fd, &xyz, pixel);
 	printf("координаты записаны\n");
 	xyz.scale = scale(pixel, xyz);
-	//xyz.move_x = 0;
-	//xyz.move_y = 0;
+
 	angle.x = 0;
 	angle.y = 0;
 	angle.z = 0;
 	mlx.mv_x = 0;
 	mlx.mv_y = 0;
+	data = (t_dta*)malloc(sizeof(t_dta));
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "FDF");
-	//draw_line(xyz, mlx);
-	//draw_hor_line(pixel, xyz, mlx);
 	draw_horizontal(pixel, xyz, mlx, angle);
-	//mlx.ptr_image = mlx_new_image(mlx.ptr, 720, 540);
-	//mlx_put_image_to_window(mlx.ptr, mlx.window, mlx.ptr_image, 0, 0);
-	//mlx_pixel_put(mlx.ptr, mlx.window, 960 - xyz.x, 540 - xyz.y, 0xFF0000);
 	//good way to store information
 	data->pixel = pixel;
 	data->mlx = mlx;

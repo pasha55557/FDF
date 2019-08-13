@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/07 19:00:26 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/13 15:21:19 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 	char				*line;
 	char				*ptr_line;
 	int					i;
+	int					color_id;
 
+	color_id = pixel[0]->color;
 	i = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
@@ -87,16 +89,30 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				pixel[i]->y = xyz->y;				
 				while (ft_isdigit(*line))
 				line++;
-				if (*line == ',')
+				if (color_id == 1)
 				{
-					pixel[i]->color = get_color(line);
-					while (!(ft_isspace(*line) || *line == '\0'))
-						line++;
+					if (*line == ',')
+					{
+						pixel[i]->color = get_color(line);
+						while (!(ft_isspace(*line) || *line == '\0'))
+							line++;
+					}
+					else
+						pixel[i]->color = 16777215;
+						//printf("номер координаты = %d, цвет = %d\n", i, pixel[i]->color);
+					i++;
 				}
 				else
-					pixel[i]->color = 16777215;
-					//printf("номер координаты = %d, цвет = %d\n", i, pixel[i]->color);
-				i++;
+				{
+					if (pixel[i]->z != 0)
+					{
+						pixel[i]->color = 0xFFFFFF >> pixel[i]->z;
+					}
+					else
+						pixel[i]->color = 0xFFFFFF;
+					i++;
+				}
+				
 			}
 			while (ft_isspace(*line))
 				line++;
