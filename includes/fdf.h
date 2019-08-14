@@ -118,7 +118,7 @@ int						get_cur_color(t_pixel current, t_data_cords cord);
 double					percent(int start, int end, int current);
 int						scale(t_pixel **pixel, t_pixel_data xyz, t_angle);
 void					iso(double *x, double *y, double z, t_angle angle);
-void					draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx);
+void					draw_hor_line(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx); // whats that
 void					braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx);
 void					draw_line(t_pixel_data xyz, t_mlx mlx);
 int						from_HEX_to_DEC(char *hex);

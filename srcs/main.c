@@ -16,48 +16,32 @@ void	move_z(t_dta **data)
 {
 	int i;
 
-	i = 0;
-	(*data)->angle.moves_count += 0.03;
-	while (i < (*data)->xyz.x * (*data)->xyz.y)
-	{
+	i = -1;
+	while (++i < (*data)->xyz.x * (*data)->xyz.y)
 		(*data)->pixel[i]->z = (*data)->angle.moves_count * (*data)->pixel[i]->z1;
-		i++;
-	}
-}
-
-void	move_z_decrease(t_dta **data)
-{
-	int i;
-
-	i = 0;
-	(*data)->angle.moves_count -= 0.03;
-	while (i < (*data)->xyz.x * (*data)->xyz.y)
-	{
-		(*data)->pixel[i]->z = (*data)->angle.moves_count * (*data)->pixel[i]->z1;
-		i++;
-	}
 }
 
 int		key_hook(int key, t_dta *data)
 {
 	if (key == 53)
-		exit(1); //need to clean everything before exit
-	else if (key == 69 || key == 78)  //when plus on numpad is pressed, zoom in (+) image
+		exit(1);
+	else if (key == 69 || key == 78)
 		data->xyz.scale += (key == 69) ? 1 : -1;
-	else if (key == 18) //press 1 to increase z
+	else if (key == 18 || key == 19)
+	{
+		data->angle.moves_count += (key == 18) ? 0.03 : -0.03;
 		move_z(&data);
-	else if (key == 19) //press 2 to decrease z
-		move_z_decrease(&data);
-	else if (key == 126 || key == 125) //press up (on the arrows) to move image upper
+	}
+	else if (key == 126 || key == 125)
 		data->mlx.mv_y += (key == 126) ? -5 : 5;
 	else if (key == 123 || key == 124)
 		data->mlx.mv_x += (key == 123) ? -5 : 5;
-	else if (key == 13 || key == 1) //w
+	else if (key == 13 || key == 1)
 		data->angle.x -= (key == 13) ? 0.01 : -0.01;
-	else if (key == 0 || key == 2) //a 
+	else if (key == 0 || key == 2)
 		data->angle.y -= (key == 0) ? 0.01 : -0.01;
-	else if (key == 25 || key == 29) // to rotate press 9 or 0 by z axis
-		data->angle.z += (key == 25) ? 0.01 : -0.01; //9
+	else if (key == 25 || key == 29)
+		data->angle.z += (key == 25) ? 0.01 : -0.01;
 	mlx_clear_window(data->mlx.ptr, data->mlx.window);
 	draw_horizontal(data->pixel, data->xyz, data->mlx, data->angle);
 	return (0);
@@ -77,8 +61,7 @@ int		main(int argc, char **argv)
 
 	if (argc != 2)
 	{
-		ft_putendl("Валидация: пиздец, карты нет"); //write usage, also add error if fd is incorrect
-		return (0);
+		ft_putendl("Валидация: пиздец, карты нет");
 	}
 	fd = open(argv[1], O_RDONLY);
 	pixel = init_pixel(fd);
@@ -97,11 +80,11 @@ int		main(int argc, char **argv)
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "FDF");
-	draw_horizontal(pixel, xyz, mlx, angle);
 	data->pixel = pixel;
 	data->mlx = mlx;
 	data->xyz = xyz;
 	data->angle = angle;
+	draw_horizontal(pixel, xyz, mlx, angle);
 
 
 	mlx_hook(mlx.window, 2, 0, (int (*)())key_hook, data);
