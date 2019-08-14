@@ -58,7 +58,8 @@ int		main(int argc, char **argv)
 	t_dta				*data;
 	t_angle				angle;
 
-
+	xyz.max_z = 0;
+	xyz.min_z = 0;
 	if (argc != 2)
 	{
 		ft_putendl("Валидация: пиздец, карты нет");
@@ -77,6 +78,7 @@ int		main(int argc, char **argv)
 	mlx.mv_y = 0;
 	angle.moves_count = 1;
 	xyz.scale = scale(pixel, xyz, angle);
+	data = (t_dta*)malloc(sizeof(t_dta));
 	printf("zoom is calculeted\n");
 	mlx.ptr = mlx_init();
 	mlx.window = mlx_new_window(mlx.ptr, 1920, 1080, "FDF");

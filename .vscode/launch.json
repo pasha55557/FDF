@@ -8,7 +8,7 @@
 			"name": "(lldb) Launch",
 			"type": "cppdbg",
 			"request": "launch",
-			"program": "/Users/dnightwi/42/fdf/pasha2/fdf",
+			"program": "/Users/rsticks/Desktop/42/FDF/fdf",
 			"args": ["maps/42.fdf"],
 			"stopAtEntry": false,
 			"cwd": "${workspaceFolder}",
