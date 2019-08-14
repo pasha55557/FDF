@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/14 17:25:52 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/14 17:30:44 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,10 @@ int		get_color_of_z(t_pixel_data *xyz, int z)
     int     blue;
     double  percentage;
 	t_data_cords cord;
-	
+
 	cord.start_color = 0xFFFFFF;
 	cord.end_color = 0x0000FF;
-	//t_pixel	delta;
-
-	//delta.z = ft_abs(xyz->max_z - xyz->min_z);
-    //if (current.color == cord.end_color)
-    //    return (current.color);
-    //if (delta.x > delta.y)
-        percentage = percent(xyz->min_z, xyz->max_z, z);
-    //else
-     //   percentage = percent(cord.start_y, cord.end_y, current.y);
+	percentage = percent(xyz->min_z, xyz->max_z, z);
     red = get_light((cord.start_color >> 16) & 0xFF, (cord.end_color >> 16) & 0xFF, percentage);
     green = get_light((cord.start_color >> 8) & 0xFF, (cord.end_color >> 8) & 0xFF, percentage);
     blue = get_light(cord.start_color & 0xFF, cord.end_color & 0xFF, percentage);
