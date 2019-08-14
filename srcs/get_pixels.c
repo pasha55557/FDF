@@ -107,11 +107,7 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				{
 					if (pixel[i]->z != 0)
 					{
-<<<<<<< HEAD
-						pixel[i]->color = 0xFFFFFF >> pixel[i]->z;
-=======
 						pixel[i]->color = 0xFFFFFF >> (int)pixel[i]->z;
->>>>>>> dnightwi
 					}
 					else
 						pixel[i]->color = 0xFFFFFF;

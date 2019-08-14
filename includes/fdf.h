@@ -94,7 +94,6 @@ typedef struct 			s_dta
 
 }						t_dta;
 
-<<<<<<< HEAD
 typedef struct			s_braz
 {
 	int					a;
@@ -114,9 +113,6 @@ typedef struct			s_braz
 
 
 
-=======
-int						sizeof_file(int fd, int *color);
->>>>>>> 090b501d3e363a79b33addf52f8708100ed0934d
 int						ft_abs(int i);
 int						get_cur_color(t_pixel current, t_data_cords cord);
 double					percent(int start, int end, int current);
