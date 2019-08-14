@@ -12,10 +12,10 @@
 
 #include "../includes/fdf.h"
 
-void	draw_1(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
+static void	draw_1(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
 {
 	t_pixel	current;
-	
+
 	while (inf->x != inf->x1 || inf->y != inf->y1)
 	{
 		inf->f += inf->a * inf->signa;
@@ -35,7 +35,7 @@ void	draw_1(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
 	}
 }
 
-void	draw_2(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
+static void	draw_2(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
 {
 	t_pixel	current;
 
@@ -58,7 +58,7 @@ void	draw_2(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
 	}
 }
 
-void	braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
+void		braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 {
 	t_braz	inf;
 
