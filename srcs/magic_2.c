@@ -6,45 +6,11 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/03 14:29:12 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/11 15:26:46 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/14 19:08:52 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
-
-void	iso(double *x, double *y, double z, t_angle angle)
-{
-    double previous_x;
-    double previous_y;
-	double	previous_z;
-
-    previous_x = *x;
-    previous_y = *y;
-	previous_z = z;
-	if (angle.x != 0)
-	{
-		*y = previous_y * cos(angle.x) + previous_z * sin(angle.x);
-		z = -previous_y * sin(angle.x) + previous_z * cos(angle.x);
-		previous_y = *y;
-		previous_z = z;
-	}
-	if (angle.y != 0)
-	{
-		*x = previous_x * cos(angle.y) + previous_z * sin(angle.y);
-		z = -previous_x * sin(angle.y) + previous_z * cos(angle.y);
-		previous_x = *x;
-		previous_z = z;
-	}
-	if (angle.z != 0)
-	{
-		*x = previous_x * cos(angle.z) - previous_y * sin(angle.z);
-		*y = previous_x * sin(angle.z) + previous_y * cos(angle.z);
-		previous_x = *x;
-		previous_y = *y;
-	}
-    *x = (previous_x - previous_y) * cos(0.523599);
-    *y = ((previous_x + previous_y) * sin(0.523599)) - z;
-}
 
 int		scale(t_pixel **pixel, t_pixel_data xyz, t_angle angle)
 {

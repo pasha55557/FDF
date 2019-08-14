@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/14 16:45:12 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/14 20:24:14 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ typedef struct			s_braz
 	int					color;
 }						t_braz;
 
+double					iso_iso(double **x, double **y, t_angle *previous, t_angle angle);
 int						get_light(int start, int end, double percentage);
 double					percent(int start, int end, int avr);
 int						ft_abs(int i);
