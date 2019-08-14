@@ -74,7 +74,8 @@ int		main(int argc, char **argv)
 	t_dta				*data;
 	t_angle				angle;
 
-
+	xyz.max_z = 0;
+	xyz.min_z = 0;
 	if (argc != 2)
 	{
 		ft_putendl("Валидация: пиздец, карты нет"); //write usage, also add error if fd is incorrect

@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/13 14:59:32 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/14 16:45:12 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ typedef struct			s_pixel_data
 	int					y;
 	int					z;
 	int 				scale;
-
+	int					min_z;
+	int					max_z;
 }						t_pixel_data;
 
 typedef struct			s_angle
@@ -111,8 +112,8 @@ typedef struct			s_braz
 	int					color;
 }						t_braz;
 
-
-
+int						get_light(int start, int end, double percentage);
+double					percent(int start, int end, int avr);
 int						ft_abs(int i);
 int						get_cur_color(t_pixel current, t_data_cords cord);
 double					percent(int start, int end, int current);
