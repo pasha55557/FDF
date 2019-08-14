@@ -82,6 +82,7 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 			{
 				//printf("%d   %d\n", xyz->x, xyz->y);
 				pixel[i]->z = ft_atoi(line);
+				pixel[i]->z1 = pixel[i]->z;
 				pixel[i]->x = xyz->x;
 				xyz->x++;
 				if (xyz->weight < xyz->x)
@@ -106,7 +107,11 @@ void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				{
 					if (pixel[i]->z != 0)
 					{
+<<<<<<< HEAD
 						pixel[i]->color = 0xFFFFFF >> pixel[i]->z;
+=======
+						pixel[i]->color = 0xFFFFFF >> (int)pixel[i]->z;
+>>>>>>> dnightwi
 					}
 					else
 						pixel[i]->color = 0xFFFFFF;

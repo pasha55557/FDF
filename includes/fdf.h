@@ -37,7 +37,8 @@ typedef struct			s_pixel
 	int					color;
 	int					x;
 	int					y;
-	int					z;
+	double				z;
+	double				z1;
 }						t_pixel;
 
 struct					s_size
@@ -61,6 +62,7 @@ typedef struct			s_pixel_data
 	int					y;
 	int					z;
 	int 				scale;
+
 }						t_pixel_data;
 
 typedef struct			s_angle
@@ -68,6 +70,7 @@ typedef struct			s_angle
 	double				x;
 	double				y;
 	double				z;
+	double				moves_count;
 }						t_angle;
 
 typedef struct			s_mlx
@@ -127,4 +130,5 @@ int						get_color(char *line);
 void					get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
 t_pixel					**init_pixel(int fd);
 void					draw_horizontal(t_pixel **pixel, t_pixel_data xyz, t_mlx mlx, t_angle angle);
+int						sizeof_file(int fd, int *color);
 #endif
