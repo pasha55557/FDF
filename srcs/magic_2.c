@@ -6,87 +6,72 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/03 14:29:12 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/14 19:08:52 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/15 14:30:13 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-int		scale(t_pixel **pixel, t_pixel_data xyz, t_angle angle)
+int			scale(t_pixel **pixel, t_pixel_data xyz, t_angle angle)
 {
-	struct	s_max_cords	max_cords;
-	int		i;
-	double	x;
-	double	y;
-	int		del_x;
-	int		del_y;
-	int		scale[2];
+	t_max_cords max_cords;
+	t_angle		cord;
+	int			i;
+	int			scale[2];
 
-	max_cords.max_x = 0;
-	max_cords.max_y = 0;
-	max_cords.min_x = 1920;
-	max_cords.min_y = 1080;
+	CRD_P(max_cords.max_x, max_cords.max_x, max_cords.min_x, max_cords.min_y);
 	i = 0;
 	while (i < ((xyz.x) * (xyz.y)))
 	{
-		x = pixel[i]->x;
-		y = pixel[i]->y;
-		iso(&x, &y, pixel[i]->z, angle);
-		x = 960 - xyz.x + x;
-		y = 540 - xyz.y/2 + y;
-		if (max_cords.max_x < x)
-			max_cords.max_x = x;
-		if (max_cords.max_y < y)
-			max_cords.max_y = y;
-		if (max_cords.min_x > x)
-			max_cords.min_x = x;
-		if (max_cords.min_y > y)
-			max_cords.min_y = y;
+		cord.x = pixel[i]->x;
+		cord.y = pixel[i]->y;
+		iso(&cord.x, &cord.y, pixel[i]->z, angle);
+		cord.x = 960 - xyz.x + cord.x;
+		cord.y = 540 - xyz.y / 2 + cord.y;
+		max_cords.max_x = max_cords.max_x < cord.x ? cord.x : max_cords.max_x;
+		max_cords.max_y = max_cords.max_y < cord.y ? cord.y : max_cords.max_y;
+		max_cords.min_x = max_cords.min_x > cord.x ? cord.x : max_cords.min_x;
+		max_cords.min_y = max_cords.min_y > cord.y ? cord.y : max_cords.min_y;
 		i++;
 	}
-	del_x = max_cords.max_x - max_cords.min_x;
-	del_y = max_cords.max_y - max_cords.min_y;
-	scale[0] = 1536 / del_x;
-	scale[1] = 810 / del_y;
-	if (scale[0] > scale[1])
-		scale[0] = scale[1];
-	printf("zoom = %d\n", scale[0]);
-		return(scale[0]);
+	scale[0] = 1536 / (max_cords.max_x - max_cords.min_x);
+	scale[1] = 810 / (max_cords.max_y - max_cords.min_y);
+	return (scale[0] > scale[1] ? scale[1] : scale[0]);
 }
 
 double		percent(int start, int end, int avr)
 {
-    double placement;
-    double distance;
+	double	placement;
+	double	distance;
 
-    placement = avr - start;
-    distance = end - start;
-    return ((distance == 0) ? 1.0 : (placement / distance));
+	placement = avr - start;
+	distance = end - start;
+	return ((distance == 0) ? 1.0 : (placement / distance));
 }
 
-int get_light(int start, int end, double percentage)
+int			get_light(int start, int end, double percentage)
 {
-    return ((int)((1 - percentage) * start + percentage * end));
+	return ((int)((1 - percentage) * start + percentage * end));
 }
 
-int get_cur_color(t_pixel current, t_data_cords cord)
+int			get_cur_color(t_pixel current, t_data_cords cor)
 {
-    int     red;
-    int     green;
-    int     blue;
-    double  percentage;
+	int		r;
+	int		g;
+	int		b;
+	double	percen;
 	t_pixel	delta;
 
-	delta.x = ft_abs(cord.start_x - cord.end_x);
-	delta.y = ft_abs(cord.start_y - cord.end_y);
-    if (current.color == cord.end_color)
-        return (current.color);
-    if (delta.x > delta.y)
-        percentage = percent(cord.start_x, cord.end_x, current.x);
-    else
-        percentage = percent(cord.start_y, cord.end_y, current.y);
-    red = get_light((cord.start_color >> 16) & 0xFF, (cord.end_color >> 16) & 0xFF, percentage);
-    green = get_light((cord.start_color >> 8) & 0xFF, (cord.end_color >> 8) & 0xFF, percentage);
-    blue = get_light(cord.start_color & 0xFF, cord.end_color & 0xFF, percentage);
-    return ((red << 16) | (green << 8) | blue);
+	delta.x = ft_abs(cor.start_x - cor.end_x);
+	delta.y = ft_abs(cor.start_y - cor.end_y);
+	if (current.color == cor.end_c)
+		return (current.color);
+	if (delta.x > delta.y)
+		percen = percent(cor.start_x, cor.end_x, current.x);
+	else
+		percen = percent(cor.start_y, cor.end_y, current.y);
+	r = get_light((cor.start_c >> 16) & 0xFF, (cor.end_c >> 16) & 0xFF, percen);
+	g = get_light((cor.start_c >> 8) & 0xFF, (cor.end_c >> 8) & 0xFF, percen);
+	b = get_light(cor.start_c & 0xFF, cor.end_c & 0xFF, percen);
+	return ((r << 16) | (g << 8) | b);
 }

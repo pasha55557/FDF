@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/30 17:42:41 by dnightwi          #+#    #+#             */
-/*   Updated: 2019/08/07 18:37:58 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/15 14:32:40 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ t_pixel_data xyz, t_mlx mlx, t_angle angle)
 		pixel[i + (xyz.y - 1) * xyz.weight]->z, angle);
 		iso(&cord.end_x, &cord.end_y,
 		pixel[i + 1 + (xyz.y - 1) * xyz.weight]->z, angle);
-		cord.start_color = pixel[i + (xyz.y - 1) * xyz.weight]->color;
-		cord.end_color = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->color;
+		cord.start_c = pixel[i + (xyz.y - 1) * xyz.weight]->color;
+		cord.end_c = pixel[i + 1 + (xyz.y - 1) * xyz.weight]->color;
 		braz(cord, xyz, mlx);
 		i++;
 	}
@@ -60,8 +60,8 @@ t_pixel_data xyz, t_mlx mlx, t_angle angle)
 		pixel[xyz.x - 1 + j * xyz.weight]->z, angle);
 		iso(&cord.end_x, &cord.end_y,
 		pixel[xyz.x - 1 + (j + 1) * xyz.weight]->z, angle);
-		cord.start_color = pixel[xyz.x - 1 + j * xyz.weight]->color;
-		cord.end_color = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->color;
+		cord.start_c = pixel[xyz.x - 1 + j * xyz.weight]->color;
+		cord.end_c = pixel[xyz.x - 1 + (j + 1) * xyz.weight]->color;
 		braz(cord, xyz, mlx);
 		j++;
 	}
@@ -89,8 +89,8 @@ t_pixel_data xyz, t_mlx mlx, t_angle angle)
 			pixel[i + j * xyz.weight]->z, angle);
 			iso(&cord.end_x, &cord.end_y,
 			pixel[i + (j + 1) * xyz.weight]->z, angle);
-			cord.start_color = pixel[i + j * xyz.weight]->color;
-			cord.end_color = pixel[i + (j + 1) * xyz.weight]->color;
+			cord.start_c = pixel[i + j * xyz.weight]->color;
+			cord.end_c = pixel[i + (j + 1) * xyz.weight]->color;
 			braz(cord, xyz, mlx);
 		}
 	}
@@ -117,8 +117,8 @@ t_pixel_data xyz, t_mlx mlx, t_angle angle)
 		cord.end_y = pixel[i + 1]->y;
 		iso(&cord.start_x, &cord.start_y, pixel[i]->z, angle);
 		iso(&cord.end_x, &cord.end_y, pixel[i + 1]->z, angle);
-		cord.start_color = pixel[i]->color;
-		cord.end_color = pixel[i + 1]->color;
+		cord.start_c = pixel[i]->color;
+		cord.end_c = pixel[i + 1]->color;
 		braz(cord, xyz, mlx);
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/30 14:53:18 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/14 20:24:14 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/15 14:26:59 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
+# define CRD_P(a, b, c, d) a = 0, b = 0, c = 1920, d = 1080	
 
 typedef struct s_data_cords
 {
@@ -28,8 +29,8 @@ typedef struct s_data_cords
 	double	start_y;
 	double	end_x;
 	double	end_y;
-	int		start_color;
-	int		end_color;
+	int		start_c;
+	int		end_c;
 }			t_data_cords;
 
 typedef struct			s_pixel
@@ -47,13 +48,13 @@ struct					s_size
 	int					width;
 };
 
-struct					s_max_cords
+typedef struct			s_max_cords
 {
 	double				max_x;
 	double				max_y;
 	double				min_x;
 	double				min_y;
-};
+}						t_max_cords;
 
 typedef struct			s_pixel_data
 {
