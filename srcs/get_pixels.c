@@ -39,31 +39,6 @@ int		get_color_of_z(t_pixel_data *xyz, int z)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-int		from_hex_to_dec(char *hex)
-{
-	int	tmp[2];
-	int	dec;
-	int power;
-
-	dec = 0;
-	power = strlen(hex);
-	power--;
-	while (power != -1)
-	{
-		if (*hex >= 97 && *hex <= 102)
-			tmp[1] = 87;
-		if (*hex >= 65 && *hex <= 70)
-			tmp[1] = 55;
-		if (*hex >= '0' && *hex <= '9')
-			tmp[1] = 48;
-		tmp[0] = (*hex - tmp[1]) * pow(16, power);
-		dec = dec + tmp[0];
-		hex++;
-		power--;
-	}
-	return (dec);
-}
-
 int		get_color(char *line)
 {
 	char	*ptr_color;
@@ -87,44 +62,42 @@ int		get_color(char *line)
 	return (int_color);
 }
 
-int		move_line(t_pixel_data *xyz, t_pixel **pixel, int i, int color_id, char **line)
+void		move_line(t_pixel_data *xyz, t_pixel **pixel, t_tmp *arg, char **line)
 {
 	if (ft_isdigit(**line))
 	{
-		pixel[i]->z = ft_atoi(*line);
-		pixel[i]->z1 = pixel[i]->z;
-		pixel[i]->x = xyz->x++;
-		get_min_max_z(xyz, pixel[i]->z);
+		pixel[arg->i]->z = ft_atoi(*line);
+		pixel[arg->i]->z1 = pixel[arg->i]->z;
+		pixel[arg->i]->x = xyz->x++;
+		get_min_max_z(xyz, pixel[arg->i]->z);
 		if (xyz->weight < xyz->x)
 			xyz->weight = xyz->x;
-		pixel[i]->y = xyz->y;
+		pixel[arg->i]->y = xyz->y;
 		while (ft_isdigit(**line))
 			(*line)++;
-		if (color_id == 1)
+		if (arg->color_id == 1)
 		{
 			if (**line == ',')
 			{
-				pixel[i]->color = get_color(*line);
+				pixel[arg->i]->color = get_color(*line);
 				while (!(ft_isspace(**line) || **line == '\0'))
 					(*line)++;
 			}
 			else
-				pixel[i]->color = 0xFFFFFF;
+				pixel[arg->i]->color = 0xFFFFFF;
 		}
-		i++;
+		arg->i++;
 	}
-	return (i);
 }
 
 void	get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 {
 	char				*line;
 	char				*ptr_line;
-	int					i;
-	int					color_id;
+	t_tmp				arg;
 
-	color_id = pixel[0]->color;
-	i = 0;
+	arg.color_id = pixel[0]->color;
+	arg.i = 0;
 	xyz->y = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
@@ -133,14 +106,14 @@ void	get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 		xyz->x = 0;
 		while (*line != '\0')
 		{
-			i = move_line(xyz, pixel, i, color_id, &line);
+			move_line(xyz, pixel, &arg, &line);
 			while (ft_isspace(*line))
 				line++;
 		}
 		xyz->y++;
 	}
 	ft_strdel(&ptr_line);
-	if (color_id == 0)
-		while (--i >= 0)
-			pixel[i]->color = get_color_of_z(xyz, pixel[i]->z);
+	if (arg.color_id == 0)
+		while (--arg.i >= 0)
+			pixel[arg.i]->color = get_color_of_z(xyz, pixel[arg.i]->z);
 }

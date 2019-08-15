@@ -52,3 +52,28 @@ double		iso_iso(double **x, double **y, t_angle *previous, t_angle angle)
 	}
 	return (z);
 }
+
+int		from_hex_to_dec(char *hex)
+{
+	int	tmp[2];
+	int	dec;
+	int power;
+
+	dec = 0;
+	power = strlen(hex);
+	power--;
+	while (power != -1)
+	{
+		if (*hex >= 97 && *hex <= 102)
+			tmp[1] = 87;
+		if (*hex >= 65 && *hex <= 70)
+			tmp[1] = 55;
+		if (*hex >= '0' && *hex <= '9')
+			tmp[1] = 48;
+		tmp[0] = (*hex - tmp[1]) * pow(16, power);
+		dec = dec + tmp[0];
+		hex++;
+		power--;
+	}
+	return (dec);
+}

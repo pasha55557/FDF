@@ -21,7 +21,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include <stdio.h>
-# define CRD_P(a, b, c, d) a = 0, b = 0, c = 1920, d = 1080	
+# define CRD_P(a, b, c, d) a = 0, b = 0, c = 1920, d = 1080
 
 typedef struct 			s_data_cords
 {
@@ -114,7 +114,16 @@ typedef struct			s_braz
 	int					color;
 }						t_braz;
 
+typedef struct 			s_tmp
+{
+	int					i;
+	int					color_id;
+}						t_tmp;
+
+
 double					iso_iso(double **x, double **y, t_angle *previous, t_angle angle);
+void					iso(double *x, double *y, double z, t_angle angle);
+int						from_hex_to_dec(char *hex);
 int						get_light(int start, int end, double percentage);
 double					percent(int start, int end, int avr);
 int						ft_abs(int i);
@@ -123,7 +132,6 @@ double					percent(int start, int end, int current);
 int						scale(t_pixel **pixel, t_pixel_data xyz, t_angle);
 void					iso(double *x, double *y, double z, t_angle angle);
 void					braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx);
-int						from_HEX_to_DEC(char *hex);
 int						get_color(char *line);
 void					get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel);
 t_pixel					**init_pixel(int fd);
