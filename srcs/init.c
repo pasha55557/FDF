@@ -26,6 +26,7 @@ t_pixel		**init_pixel(int fd)
 	while (size)
 		pixel[--size] = (t_pixel*)malloc(sizeof(t_pixel));
 	pixel[0]->color = color_id;
+	close(fd);
 	return (pixel);
 }
 
@@ -33,27 +34,17 @@ int			sizeof_file(int fd, int *color)
 {
 	char				*ptr_line;
 	char				*line;
-	int					x;
 	int					y;
-	int					i;
 
-	ptr_line = line;
-	y = 0;
-	i = 0;
-	while (get_next_line(fd, &line) == 1)
+	y = -1;
+	while (get_next_line(fd, &line) == 1 && y++)
 	{
-		if (i == 0)
-			ptr_line = line;
-		i++;
-		x = 0;
-		while (*line != '\0')
+		ptr_line = (y == 0) ? line : ptr_line;
+		while (*line != '\0' && ++y)
 		{
 			if (ft_isdigit(*line))
-			{
-				x++;
 				while (ft_isdigit(*line))
 					line++;
-			}
 			if (*line == ',')
 			{
 				*color = 1;
@@ -63,9 +54,7 @@ int			sizeof_file(int fd, int *color)
 			while (ft_isspace(*line))
 				line++;
 		}
-		y++;
 	}
 	free(ptr_line);
-	close(fd);
-	return (x * y);
+	return (y);
 }

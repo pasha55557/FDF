@@ -69,7 +69,7 @@ void		braz(t_data_cords cord, t_pixel_data max_cords, t_mlx mlx)
 	inf.a = inf.y1 - inf.y;
 	inf.b = inf.x - inf.x1;
 	inf.f = 0;
-	inf.color = cord.start_color;
+	inf.color = cord.start_c;
 	inf.sign = (ft_abs(inf.a) > ft_abs(inf.b)) ? 1 : -1;
 	inf.signa = (inf.a < 0) ? -1 : 1;
 	inf.signb = (inf.b < 0) ? -1 : 1;
