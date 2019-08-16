@@ -6,14 +6,14 @@
 #    By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/07/21 17:06:57 by rsticks           #+#    #+#              #
-#    Updated: 2019/08/16 16:31:08 by dnightwi         ###   ########.fr        #
+#    Updated: 2019/08/16 18:53:24 by rsticks          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
 CC = gcc
-FLAGS = -g
+FLAGS = -g -Wall -Wextra -Werror
 LIBRARIES = -lmlx -lm -lft -L$(LIBFT_DIRECTORY) -L$(MINILIBX_DIRECTORY) -framework OpenGL -framework AppKit
 INCLUDES = -I$(HEADERS_DIRECTORY) -I$(LIBFT_HEADERS) -I$(MINILIBX_HEADERS)
 

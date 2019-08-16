@@ -6,11 +6,29 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/03 14:29:12 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/15 14:30:13 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/16 18:48:57 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
+
+int			usage(int argc, char **argv, int fd)
+{
+	char	*str;
+
+	if (argc != 2)
+	{
+		ft_putendl("Usage: ./fdf [file]");
+		return (0);
+	}
+	str = ft_strstr(argv[1], ".fdf");
+	if (!str || fd < 0)
+	{
+		ft_putendl("Invalid file");
+		return (0);
+	}
+	return (1);
+}
 
 int			scale(t_pixel **pixel, t_pixel_data xyz, t_angle angle)
 {

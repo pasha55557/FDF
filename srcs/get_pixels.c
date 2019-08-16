@@ -6,13 +6,13 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/07/21 18:54:52 by rsticks           #+#    #+#             */
-/*   Updated: 2019/08/15 14:31:14 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/16 18:37:51 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	get_min_max_z(t_pixel_data *xyz, int z)
+static void	get_min_max_z(t_pixel_data *xyz, int z)
 {
 	if (z > xyz->max_z)
 		xyz->max_z = z;
@@ -20,7 +20,7 @@ void	get_min_max_z(t_pixel_data *xyz, int z)
 		xyz->min_z = z;
 }
 
-int		get_color_of_z(t_pixel_data *xyz, int z)
+static int	get_color_of_z(t_pixel_data *xyz, int z)
 {
 	int				red;
 	int				green;
@@ -39,7 +39,7 @@ int		get_color_of_z(t_pixel_data *xyz, int z)
 	return ((red << 16) | (green << 8) | blue);
 }
 
-int		get_color(char *line)
+static int	get_color(char *line)
 {
 	char	*ptr_color;
 	int		int_color;
@@ -62,7 +62,7 @@ int		get_color(char *line)
 	return (int_color);
 }
 
-void	move_line(t_pixel_data *xyz, t_pixel **pixel,
+static void	move_line(t_pixel_data *xyz, t_pixel **pixel,
 t_tmp *arg, char **line)
 {
 	if (ft_isdigit(**line))
@@ -91,7 +91,7 @@ t_tmp *arg, char **line)
 	}
 }
 
-void	get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
+void		get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 {
 	char				*line;
 	char				*ptr_line;
@@ -114,7 +114,7 @@ void	get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 		xyz->y++;
 		ft_strdel(&ptr_line);
 	}
-	ft_strdel(&ptr_line);
+	ft_strdel(&line);
 	if (arg.color_id == 0)
 		while (--arg.i >= 0)
 			pixel[arg.i]->color = get_color_of_z(xyz, pixel[arg.i]->z);

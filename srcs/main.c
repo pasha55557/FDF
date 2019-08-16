@@ -6,13 +6,13 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/26 13:59:34 by rsticks           #+#    #+#             */
-/*   Updated: 2019/07/12 18:03:54 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/16 18:54:55 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/fdf.h"
 
-void	move_z(t_dta **data)
+static void	move_z(t_dta **data)
 {
 	int i;
 
@@ -22,7 +22,7 @@ void	move_z(t_dta **data)
 		* (*data)->pixel[i]->z1;
 }
 
-void	menu(t_mlx mlx)
+static void	menu(t_mlx mlx)
 {
 	mlx_string_put(mlx.ptr, mlx.window, 75, 10, 3328900, "Menu");
 	mlx_string_put(mlx.ptr, mlx.window, 5, 25, 3328900,
@@ -32,11 +32,9 @@ void	menu(t_mlx mlx)
 	"+, -: zoom in, zoom out");
 	mlx_string_put(mlx.ptr, mlx.window, 5, 70, 3328900,
 	"Rotate by axis: W, S, A, D, 9, 0");
-	mlx_string_put(mlx.ptr, mlx.window, 5, 85, 3328900,
-	"Change view angle - I, O");
 }
 
-int		key_hook(int key, t_dta *data)
+static int	key_hook(int key, t_dta *data)
 {
 	if (key == 53)
 		exit(1);
@@ -57,15 +55,13 @@ int		key_hook(int key, t_dta *data)
 		data->angle.y -= (key == 0) ? 0.01 : -0.01;
 	else if (key == 25 || key == 29)
 		data->angle.z += (key == 25) ? 0.01 : -0.01;
-	else if (key == 34 || key == 31)
-		data->angle.projection = (key == 34) ? 0.523599 : 0;
 	mlx_clear_window(data->mlx.ptr, data->mlx.window);
 	menu(data->mlx);
 	draw_horizontal(data->pixel, data->xyz, data->mlx, data->angle);
 	return (0);
 }
 
-void	data_def(t_dta **data, int fd)
+static void	data_def(t_dta **data, int fd)
 {
 	(*data) = (t_dta*)malloc(sizeof(t_dta));
 	(*data)->xyz.max_z = 0;
@@ -83,20 +79,15 @@ void	data_def(t_dta **data, int fd)
 	(*data)->xyz.x = 0;
 }
 
-int		main(int argc, char **argv)
+int			main(int argc, char **argv)
 {
-	t_pixel				**pixel;
 	t_dta				*data;
-	struct s_size		size;
 	int					fd;
 
-	if (argc != 2)
-		ft_putendl("Usage: ./fdf [file]");
 	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
+	if (1 != usage(argc, argv, fd))
 	{
-		ft_putendl("Invalid file");
-		return (1);
+		return (0);
 	}
 	data_def(&data, fd);
 	fd = open(argv[1], O_RDONLY);
