@@ -12,7 +12,8 @@
 
 #include "../includes/fdf.h"
 
-static void	draw_1(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
+static void	draw_1(t_braz *inf, t_data_cords cord,
+t_mlx mlx, t_pixel_data max_cords)
 {
 	t_pixel	current;
 
@@ -35,7 +36,8 @@ static void	draw_1(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_c
 	}
 }
 
-static void	draw_2(t_braz *inf, t_data_cords cord, t_mlx mlx, t_pixel_data max_cords)
+static void	draw_2(t_braz *inf, t_data_cords cord,
+t_mlx mlx, t_pixel_data max_cords)
 {
 	t_pixel	current;
 

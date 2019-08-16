@@ -53,7 +53,7 @@ double		iso_iso(double **x, double **y, t_angle *previous, t_angle angle)
 	return (z);
 }
 
-int		from_hex_to_dec(char *hex)
+int			from_hex_to_dec(char *hex)
 {
 	int	tmp[2];
 	int	dec;

@@ -58,11 +58,12 @@ int		get_color(char *line)
 		line++;
 	}
 	int_color = from_hex_to_dec(ptr_color);
-	//free(&ptr_color);
+	ft_strdel(&ptr_color);
 	return (int_color);
 }
 
-void		move_line(t_pixel_data *xyz, t_pixel **pixel, t_tmp *arg, char **line)
+void	move_line(t_pixel_data *xyz, t_pixel **pixel,
+t_tmp *arg, char **line)
 {
 	if (ft_isdigit(**line))
 	{
@@ -111,6 +112,7 @@ void	get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 				line++;
 		}
 		xyz->y++;
+		ft_strdel(&ptr_line);
 	}
 	ft_strdel(&ptr_line);
 	if (arg.color_id == 0)

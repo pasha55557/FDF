@@ -39,7 +39,7 @@ int			sizeof_file(int fd, int *color)
 	y = -1;
 	while (get_next_line(fd, &line) == 1 && y++)
 	{
-		ptr_line = (y == 0) ? line : ptr_line;
+		ptr_line = line;
 		while (*line != '\0' && ++y)
 		{
 			if (ft_isdigit(*line))
@@ -54,7 +54,8 @@ int			sizeof_file(int fd, int *color)
 			while (ft_isspace(*line))
 				line++;
 		}
+		ft_strdel(&ptr_line);
 	}
-	free(ptr_line);
+	ft_strdel(&ptr_line);
 	return (y);
 }
