@@ -52,7 +52,6 @@ double		iso_iso(double **x, double **y, t_angle *previous, t_angle angle)
 	}
 	return (z);
 }
-<<<<<<< HEAD
 
 int			from_hex_to_dec(char *hex)
 {
@@ -78,5 +77,3 @@ int			from_hex_to_dec(char *hex)
 	}
 	return (dec);
 }
-=======
->>>>>>> 395ca133764f701a5892f94301f484461e09b46d

@@ -31,44 +31,12 @@ int		get_color_of_z(t_pixel_data *xyz, int z)
 	cord.start_c = 0xFFFFFF;
 	cord.end_c = 0x0000FF;
 	percentage = percent(xyz->min_z, xyz->max_z, z);
-<<<<<<< HEAD
 	red = get_light((cord.start_c >> 16) & 0xFF,
 	(cord.end_c >> 16) & 0xFF, percentage);
 	green = get_light((cord.start_c >> 8) & 0xFF,
 	(cord.end_c >> 8) & 0xFF, percentage);
 	blue = get_light(cord.start_c & 0xFF, cord.end_c & 0xFF, percentage);
 	return ((red << 16) | (green << 8) | blue);
-=======
-    red = get_light((cord.start_c >> 16) & 0xFF, (cord.end_c >> 16) & 0xFF, percentage);
-    green = get_light((cord.start_c >> 8) & 0xFF, (cord.end_c >> 8) & 0xFF, percentage);
-    blue = get_light(cord.start_c & 0xFF, cord.end_c & 0xFF, percentage);
-    return ((red << 16) | (green << 8) | blue);
-}
-
-int		from_HEX_to_DEC(char *hex)
-{
-	int	tmp[2];
-	int	dec;
-	int power;
-
-	dec = 0;
-	power = strlen(hex);
-	power--;
-	while (power != -1)
-	{
-		if (*hex >= 97 && *hex <= 102)
-			tmp[1] = 87;
-		if (*hex >= 65 && *hex <= 70)
-			tmp[1] = 55;
-		if (*hex >= '0' && *hex <= '9')
-			tmp[1] = 48;
-		tmp[0] = (*hex - tmp[1]) * pow(16, power);
-		dec = dec + tmp[0];
-		hex++;
-		power--;
-	}
-	return(dec);
->>>>>>> 395ca133764f701a5892f94301f484461e09b46d
 }
 
 int		get_color(char *line)
@@ -139,36 +107,7 @@ void	get_pixels(int fd, t_pixel_data *xyz, t_pixel **pixel)
 		xyz->x = 0;
 		while (*line != '\0')
 		{
-<<<<<<< HEAD
 			move_line(xyz, pixel, &arg, &line);
-=======
-			if (ft_isdigit(*line))
-			{
-				//printf("%d   %d\n", xyz->x, xyz->y);
-				pixel[i]->z = ft_atoi(line);
-				pixel[i]->z1 = pixel[i]->z;
-				pixel[i]->x = xyz->x;
-				xyz->x++;
-				get_min_max_z(xyz, pixel[i]->z);
-				if (xyz->weight < xyz->x)
-					xyz->weight = xyz->x;
-				pixel[i]->y = xyz->y;				
-				while (ft_isdigit(*line))
-				line++;
-				if (color_id == 1)
-				{
-					if (*line == ',')
-					{
-						pixel[i]->color = get_color(line);
-						while (!(ft_isspace(*line) || *line == '\0'))
-							line++;
-					}
-					else
-						pixel[i]->color = 0xFFFFFF;
-				}
-				i++;
-			}
->>>>>>> 395ca133764f701a5892f94301f484461e09b46d
 			while (ft_isspace(*line))
 				line++;
 		}

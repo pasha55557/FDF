@@ -14,11 +14,7 @@
 
 int			scale(t_pixel **pixel, t_pixel_data xyz, t_angle angle)
 {
-<<<<<<< HEAD
 	t_max_cords	max_cords;
-=======
-	t_max_cords max_cords;
->>>>>>> 395ca133764f701a5892f94301f484461e09b46d
 	t_angle		cord;
 	int			i;
 	int			scale[2];
