@@ -6,11 +6,11 @@
 /*   By: rsticks <rsticks@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/14 16:58:39 by dnightwi          #+#    #+#             */
-/*   Updated: 2019/08/15 14:33:16 by rsticks          ###   ########.fr       */
+/*   Updated: 2019/08/16 19:42:05 by rsticks          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/fdf.h"
+#include "fdf.h"
 
 static void	draw_1(t_braz *inf, t_data_cords cord,
 t_mlx mlx, t_pixel_data max_cords)
